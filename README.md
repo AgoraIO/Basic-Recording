@@ -2,21 +2,25 @@
 # Agora-LinuxServer-Recording
 
 *Read this in other languages: [English](README.en.md)*
+
 #详细信息请参考 [录制快速入门](https://docs.agora.io/cn/user_guide/communication/recording_qs.html)
 
 ##准备工作
+
 请确保满足以下操作系统要求:
 
 Ubuntu 12.04 x64 或更高版本
 CentOS 6.5 x64 或更高版本
 
 #请确保满足以下编译器要求: gcc 4.4 或更高版本。
+
 #准备一个 App ID，在 [Agora.io 注册](https://dashboard.agora.io/cn/signup/) 注册账号，并创建自己的测试项目，获取到 AppID。
 
 
 ##编译运行
-# 把lib下的库解压
-# 进入samples 的路径下执行以下命令进行编译。
+
+- 把lib下的库解压
+- 进入samples 的路径下执行以下命令进行编译。
 
 make
 

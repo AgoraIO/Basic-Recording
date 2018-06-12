@@ -1,7 +1,7 @@
 
 # Agora-LinuxServer-Recording
 
-*Read this in other languages: [English](README.en.md)*
+*Read this in other languages: [English](README.md)*
 
 #详细信息请参考 [录制快速入门](https://docs.agora.io/cn/user_guide/communication/recording_qs.html)
 

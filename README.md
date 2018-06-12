@@ -1,7 +1,7 @@
 
 # Agora-LinuxServer-Recording
 
-*Read this in other languages: [中文](README.md)*
+*Read this in other languages: [中文](README_zh.md)*
 
 #Detail infos, please refer to [Recording quick startup ](https://docs.agora.io/cn/user_guide/communication/recording_qs.html)
 

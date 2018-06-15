@@ -149,9 +149,9 @@ Library|Description
 #include "agorasdk/AgoraSdk.h" 
 ```
 
-### Add Global Variables
+### Add Namespaces and Global Variables
 
-Define standard and Agora classes that will be used in the code.
+Define standard and Agora classes and specify namespaces that will be used in the code.
 
 ``` c++
 using std::string;

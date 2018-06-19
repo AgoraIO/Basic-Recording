@@ -1,7 +1,6 @@
-
 # Agora Linux Server Recording
 
-This sample application enables you to quickly get started using the Agora Recording SDK to enable recording on your Linux server.
+This sample application for the Agora Recording SDK enables recording on your Linux server.
 
 ## Prerequisites
 - Ubuntu 12.04+ x64 or CentOS 6.5+ x64 (CentOS 7+ recommended)
@@ -22,11 +21,11 @@ This section shows you how to prepare and build the sample application.
 
 
 ### Create an Account and Obtain an App ID
-To build and run the sample application, first obtain an App ID: 
+To build and run the sample application, first obtain an app ID: 
 
-1. Create a developer account at [agora.io](https://dashboard.agora.io/signin/). Once you finish the signup process, you are redirected to the dashboard.
+1. Create a developer account at [agora.io](https://dashboard.agora.io/signin/). Once you finish the sign-up process, you are redirected to the dashboard.
 2. In the dashboard tree on the left, navigate to **Projects** > **Project List**.
-3. Save the App ID from the Agora dashboard. The App ID is needed to run the sample application.
+3. Save the app ID from the Agora dashboard. The app ID is needed to run the sample application.
 
 ### Integrate the Agora Video SDK
 
@@ -34,7 +33,7 @@ To open and build the sample application, first integrate the Agora SDK.
 
 1. Download the [Agora Recording SDK for Linux](https://www.agora.io/en/download/).
 2. Unzip the downloaded SDK package.
-3. Copy the following files/folders from the downloaded SDK package to the sample application.
+3. Copy the following files/folders from the downloaded SDK package to the sample application:
 
 	SDK Path|Sample Application Path
 	----|----
@@ -44,13 +43,13 @@ To open and build the sample application, first integrate the Agora SDK.
 	`samples/cpp` folder|Copy to `samples` folder
 	`samples/java` folder| Copy to `samples` folder
 
-4. Replace the following folders in the sample application with the folders from downloaded SDK package.
+4. Replace the following folders in the sample application with the folders from the downloaded SDK package.
 
 	- `include` folder
 	- `tools` folder
 	- `base` folder
 
-5. Decompress the `libRecordEngine.tar.gz` file in `libs` directory of your sample application. This will add the required `libRecordEngine.a` file.
+5. To add the required `libRecordEngine.a` file, decompress the `libRecordEngine.tar.gz` file in the `libs` directory of your sample application. 
 
 
 ### Build the Sample Application 
@@ -61,7 +60,7 @@ To open and build the sample application, first integrate the Agora SDK.
 	- 1080
 	- 8000
 	- 25000
-2. Ensure local ports are not limited by firewalls. If limitations can not be avoided, apply the following port settings:
+2. Ensure local ports are not limited by firewalls. If limitations cannot be avoided, apply the following port settings:
 
 	Port type|Setting
 	----|----
@@ -69,20 +68,20 @@ To open and build the sample application, first integrate the Agora SDK.
 	Low UDP Port|40000
 	High UDP Port|41000
 
-3. Navigate to the `samples/cpp` directory. Ensure you replace `PATH-TO-PROJECT` with the path to the sample application on your Linux server.
+3. Navigate to the `samples/cpp` directory. Replace `PATH-TO-PROJECT` with the path to the sample application on your Linux server.
 
 	```
 	cd PATH-TO-PROJECT/samples/cpp
 	```
 	
-4. Execute the `make` command. This will create a `record_local` application within the directory.
+4. Execute the `make` command to create a `record_local` application within the directory.
 
 	```
 	make
 	```
 
-5. Run `./record_local`, using the App ID and path to the sample app directory.
-	- Replace `APPID` with the App ID from the [earlier step](#create-an-account-and-obtain-an-app-id).
+5. Run `./record_local`, using the app ID and path to the sample app directory.
+	- Replace `APPID` with the app ID from the [earlier step](#create-an-account-and-obtain-an-app-id).
 	- Replace `PATH-TO-PROJECT` with the path to the sample app directory on the Linux server.
 
 	```
@@ -97,7 +96,7 @@ cmds ./Record_local
 
 ## Steps to Create the Sample
 
-The key code for the sample application is in the `main.cpp` file. The following steps identify the code most relevant to using the Agora Recording SDK.
+The key code for the sample application is in the `main.cpp` file. The most relevant code for the Agora Recording SDK is in the following sections:
 
 - [Add Import Statements](#add-import-statements)
 - [Add Global Variables](#add-global-variables)
@@ -111,7 +110,7 @@ Add the C++ libraries for variable definitions and streaming.
 Library|Description
 ----|----
 `<csignal>`|Signal handling library
-`<cstdint>`|Set of integral type aliases
+`<cstdint>`|Defines a set of integral type aliases
 `<iostream>`|Defines the standard input/output stream objects
 `<sstream>`|Provides string stream classes
 `<string>`|Defines string types, character traits, and a set of converting functions
@@ -133,11 +132,11 @@ Add the Agora SDK libraries.
 Library|Description
 ----|----
 `IAgoraLinuxSdkCommon.h`|Defines Agora variable types and classes
-`IAgoraRecordingEngine.h`|Agora recording engine class
-`base/atomic.h`|Defines Agora namespace
+`IAgoraRecordingEngine.h`|Defines the Agora recording engine class
+`base/atomic.h`|Defines the Agora namespace
 `base/log.h`|Agora logging library
 `base/opt_parser.h`|Agora communication helper library
-`agorasdk/AgoraSdk.h`|Agora recording SDK
+`agorasdk/AgoraSdk.h`|Agora Recording SDK
 
 ``` c++
 #include "IAgoraLinuxSdkCommon.h"
@@ -151,7 +150,7 @@ Library|Description
 
 ### Add Namespaces and Global Variables
 
-Define standard and Agora classes and specify namespaces that will be used in the code.
+Define standard and Agora classes, and specify namespaces to use in the code.
 
 ``` c++
 using std::string;
@@ -165,7 +164,7 @@ using agora::linuxsdk::AudioFrame;
 
 ```
 
-Define global variables used to determine signal and service starts and stops.
+Define global variables to determine signal and service starts and stops.
 
 Variable|Description
 ---|---
@@ -213,11 +212,11 @@ int main(int argc, char * const argv[]) {
 - [Set Up the Parser Object](#set-up-the-parser-object)
 - [Check Configuration Settings](#check-configuration-settings)
 - [Set the Recording Configuration](#set-the-recording-configuration)
-- [Set up the Agora Recorder](#set-up-the-agora-recorder)
+- [Set Up the Agora Recorder](#set-up-the-agora-recorder)
 
 #### Define Variables
 
-Define Agora variables that will be used in the Agora SDK engine.
+Define Agora variables for the Agora SDK engine.
 
 Variable|Description
 ----|----
@@ -275,7 +274,7 @@ Define the variables for the low and high UDP ports.
   int highUdpPort = 0;//40004;
 ```
 
-Define the audio, video, and mixing variables which are used for the settings in the Agora parser.
+Define the audio, video, and mixing variables for the settings in the Agora parser.
 
 ``` c++
   bool isAudioOnly=0;
@@ -292,14 +291,14 @@ Define the audio, video, and stream format types.
   uint32_t streamType = agora::linuxsdk::REMOTE_VIDEO_STREAM_HIGH;
 ```
 
-Define `captureInterval` which is the video snapshot interval in seconds, and set the trigger mode to automatic.
+Define the video snapshot interval `captureInterval` (in seconds). Set the trigger mode to automatic.
 
 ``` c++
   int captureInterval = 5;
   int triggerMode = agora::linuxsdk::AUTOMATICALLY_MODE;
 ```
 
-Define the width, height, frames per second, and KB per second, which are used as recording configuration parameters.
+Define the following recording configuration parameters: width, height, frames per second, and KB per second.
 
 ``` c++
   int width = 0;
@@ -308,7 +307,7 @@ Define the width, height, frames per second, and KB per second, which are used a
   int kbps = 0;
 ```
 
-Define signal variables, which are used to track the communication signal of the recording.
+Define signal variables, which track the communication signal of the recording.
 
 ``` c++
   g_bSignalStop = false;
@@ -322,10 +321,10 @@ Use the `signal()` method to set signal event handlers.
 
 Event|Description
 ---|---
-`SIGQUIT`|Signal is terminated.
-`SIGABRT`|Signal is aborted.
-`SIGINT`|Signal is interrupted.
-`SIGPIPE`|Broken pipe signal. Passing `SIG_IGN` as handler ignores the broken pipe signal.
+`SIGQUIT`|The signal is terminated.
+`SIGABRT`|The signal is aborted.
+`SIGINT`|The signal is interrupted.
+`SIGPIPE`|Broken pipe signal. Passing `SIG_IGN` as a handler ignores the broken pipe signal.
 
 ``` c++
   signal(SIGQUIT, signal_handler);
@@ -336,7 +335,7 @@ Event|Description
 
 #### Set Up the Parser Object
 
-Define the `parser` object and apply the app ID, user ID, channel name, application path, channel key, and channel profile, using the `parser.add_long_opt()` method.
+Define the `parser` object, using the `parser.add_long_opt()` method to apply the app ID, user ID, channel name, application path, channel key, and channel profile. 
 
 ``` c++
   opt_parser parser;
@@ -407,7 +406,7 @@ Set the video stream type and trigger mode.
 
 #### Check Configuration Settings
 
-Ensure the `parser` settings, `appID`, and channel `name` are all valid. If the `parser` settings, `appID`, or channel `name` are invalid, terminate the application.
+Ensure the `parser` settings, `appID`, and channel `name` are all valid. If any of these are invalid, terminate the application.
 
 ``` c++
   if (!parser.parse_opts(argc, argv) || appId.empty() || name.empty()) {
@@ -418,7 +417,7 @@ Ensure the `parser` settings, `appID`, and channel `name` are all valid. If the 
   }
 ```
 
-If the trigger mode is set to manual, add additional signal event listeners to start and stop service.
+If the trigger mode is set to manual, add additional signal event listeners to start and stop the service.
  
 ``` c++
   if(triggerMode == agora::linuxsdk::MANUALLY_MODE) {
@@ -427,9 +426,9 @@ If the trigger mode is set to manual, add additional signal event listeners to s
   }
 ```
 
-Check if the recording file directory and configuration file path is empty.
+Check if the recording file directory and configuration file path are empty:
 
-If the directories are not empty, terminate the application and log an error using the `LOG()` method and terminate the application.
+If the directories are not empty, log an error using the `LOG()` method and terminate the application.
 
 
 ``` c++
@@ -517,7 +516,7 @@ Set the audio, video, and stream format types and the trigger mode.
   config.triggerMode = static_cast<agora::linuxsdk::TRIGGER_MODE_TYPE>(triggerMode);
 ```
 
-#### Set up the Agora Recorder
+#### Set Up the Agora Recorder
 
 Set the mix mode for the `recorder` and create an Agora video channel using the `recorder.createChannel()` method. If the channel creation fails, terminate the application.
 
@@ -568,9 +567,9 @@ Once the signal stops, leave the channel using `recorder.leaveChannel()` and rel
 ```
 
 ## Resources
-- Full API documentation in the [Document Center](https://docs.agora.io/en/)
-- File bugs about this sample [here](https://dashboard.agora.io)
-- Detailed Agora Linux Recording guides [here](https://docs.agora.io/en/2.3.1/addons/Recording/Quickstart%20Guide/recording_cpp?platform=C%2B%2B)
+- See full API documentation in the [Document Center](https://docs.agora.io/en/)
+- [File bugs about this sample](https://dashboard.agora.io)
+- See [detailed Agora Linux Recording guides](https://docs.agora.io/en/2.3.1/addons/Recording/Quickstart%20Guide/recording_cpp?platform=C%2B%2B)
 
 ## License
 This software is licensed under the MIT License (MIT). [View the license](LICENSE.md).

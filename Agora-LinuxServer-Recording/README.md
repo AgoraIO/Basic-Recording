@@ -568,7 +568,7 @@ Once the signal stops, leave the channel using `recorder.leaveChannel()` and rel
 
 ## Resources
 - See full API documentation in the [Document Center](https://docs.agora.io/en/)
-- [File bugs about this sample](https://dashboard.agora.io)
+- [File bugs about this sample](https://github.com/AgoraIO/Basic-Recording/issues)
 - See [detailed Agora Linux Recording guides](https://docs.agora.io/en/2.3.1/addons/Recording/Quickstart%20Guide/recording_cpp?platform=C%2B%2B)
 
 ## License

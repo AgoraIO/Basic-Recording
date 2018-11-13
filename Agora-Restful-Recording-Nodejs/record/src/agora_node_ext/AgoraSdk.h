@@ -42,6 +42,7 @@ class AgoraSdk : virtual public agora::recording::IRecordingEngineEventHandler {
 #define REC_EVENT_JOIN_CHANNEL "joinchannel"
 #define REC_EVENT_ERROR "error"
 #define REC_EVENT_USER_JOIN "userjoin"
+#define REC_EVENT_USER_LEAVE "userleave"
     public:
             struct NodeEventCallback
             {

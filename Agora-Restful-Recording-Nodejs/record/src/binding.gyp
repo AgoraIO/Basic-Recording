@@ -15,8 +15,6 @@
       './agora_node_ext/agora_node_recording.cpp',
       './agora_node_ext/node_async_queue.h',
       './agora_node_ext/node_async_queue.cpp',
-      './agora_node_ext/node_event_handler.h',
-      './agora_node_ext/node_event_handler.cpp',
       './agora_node_ext/node_log.h',
       './agora_node_ext/node_log.cpp',
       './agora_node_ext/node_napi_api.cpp',

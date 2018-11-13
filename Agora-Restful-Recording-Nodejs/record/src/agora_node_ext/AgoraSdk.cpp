@@ -154,6 +154,7 @@ int AgoraSdk::stopService() {
 
 void AgoraSdk::updateMixLayout(agora::linuxsdk::VideoMixingLayout &layout) {
     m_layout = layout;
+    setVideoMixLayout();
 }
 
 agora::linuxsdk::VideoMixingLayout AgoraSdk::getMixLayout() {
@@ -166,63 +167,6 @@ int AgoraSdk::setVideoMixLayout()
     // recording::RecordingConfig *pConfig = getConfigInfo();
     // size_t max_peers = pConfig->channelProfile == linuxsdk::CHANNEL_PROFILE_COMMUNICATION ? 7:17;
     if(m_layout.regionCount == 0) return 0;
-
-//     LOG_DIR(m_logdir.c_str(), INFO, "setVideoMixLayout: user size: %d, permitted max_peers:%d", m_peers.size(), max_peers);
-
-//     agora::linuxsdk::VideoMixingLayout layout;
-//     layout.canvasWidth = m_mixRes.m_width;
-//     layout.canvasHeight = m_mixRes.m_height;
-//     layout.backgroundColor = "#23b9dc";
-
-//     layout.regionCount = static_cast<uint32_t>(m_peers.size());
-
-//     if (!m_peers.empty()) {
-//         LOG_DIR(m_logdir.c_str(), INFO, "setVideoMixLayout: peers not empty");
-//         agora::linuxsdk::VideoMixingLayout::Region * regionList = new agora::linuxsdk::VideoMixingLayout::Region[m_peers.size()];
-
-//         regionList[0].uid = m_peers[0];
-//         regionList[0].x = 0.f;
-//         regionList[0].y = 0.f;
-//         regionList[0].width = 1.f;
-//         regionList[0].height = 1.f;
-//         regionList[0].zOrder = 0;
-//         regionList[0].alpha = 1.f;
-//         regionList[0].renderMode = 0;
-
-//         LOG_DIR(m_logdir.c_str(), INFO, "region 0 uid: %u, x: %f, y: %f, width: %f, height: %f, zOrder: %d, alpha: %f", regionList[0].uid, regionList[0].x, regionList[0].y, regionList[0].width, regionList[0].height, regionList[0].zOrder, regionList[0].alpha);
-
-
-//         float canvasWidth = static_cast<float>(m_mixRes.m_width);
-//         float canvasHeight = static_cast<float>(m_mixRes.m_height);
-
-//         float viewWidth = 0.235f;
-//         float viewHEdge = 0.012f;
-//         float viewHeight = viewWidth * (canvasWidth/canvasHeight);
-//         float viewVEdge = viewHEdge * (canvasWidth/canvasHeight);
-
-//         for (size_t i=1; i<m_peers.size(); i++) {
-//             if (i >= max_peers)
-//                 break;
-
-//             regionList[i].uid = m_peers[i];
-
-//             float xIndex = static_cast<float>((i-1) % 4);
-//             float yIndex = static_cast<float>((i-1) / 4);
-//             regionList[i].x = xIndex * (viewWidth + viewHEdge) + viewHEdge;
-//             regionList[i].y = 1 - (yIndex + 1) * (viewHeight + viewVEdge);
-//             regionList[i].width = viewWidth;
-//             regionList[i].height = viewHeight;
-//             regionList[i].zOrder = 0;
-//             regionList[i].alpha = static_cast<double>(i + 1);
-//             regionList[i].renderMode = 0;
-//         }
-
-//         layout.regions = regionList;
-// //    LOG_DIR(m_logdir.c_str(), INFO, "region 0 uid: %d, x: %f, y: %f, width: %f, height: %f, zOrder: %d, alpha: %f", regionList[0].uid, regionList[0].x, regionList[0].y, regionList[0].width, regionList[0].height, regionList[0].zOrder, regionList[0].alpha);
-//     }
-//     else {
-//         layout.regions = NULL;
-//     }
 
     cout << "color: " << m_layout.backgroundColor << endl;
     return setVideoMixingLayout(m_layout);
@@ -290,6 +234,10 @@ void AgoraSdk::onUserOfflineImpl(unsigned uid, agora::linuxsdk::USER_OFFLINE_REA
     
     //When the user is offline, we can re-layout the canvas
     setVideoMixLayout();
+
+    agora::recording::node_async_call::async_call([this, uid]() {
+        MAKE_JS_CALL_1(REC_EVENT_USER_LEAVE, uid, uid);
+    });
 }
 
 void AgoraSdk::audioFrameReceivedImpl(unsigned int uid, const agora::linuxsdk::AudioFrame *pframe) const 

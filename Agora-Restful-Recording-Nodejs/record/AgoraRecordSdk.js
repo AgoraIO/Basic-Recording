@@ -1,14 +1,52 @@
 const agora = require("./agorasdk");
 const path = require("path");
+const fs = require("fs")
+const EventEmitter = require("events")
 
-class AgoraRecordSdk {
+class AgoraRecordSdk extends EventEmitter {
     constructor() {
+        super();
         this.recording = new agora.NodeRecordingSdk();
+        this.initEventHandler();
     }
 
-    joinChannel(key, name, uid, appid, cfgPath) {
-        let binPath = path.join(__dirname, "./src/sdk/bin/");
-        return this.recording.joinChannel(key, name, binPath, appid, uid, cfgPath);
+    initEventHandler() {
+        let self = this;
+    
+        let fire = (...args) => {
+          setImmediate(() => {
+            this.emit(...args)
+          })
+        }
+
+        this.onEvent("joinchannel", (channel, uid) => {
+            fire('joinchannel', channel, uid);
+        });
+        this.onEvent("error", (err, stat) => {
+            fire('error', err, stat);
+        });
+        this.onEvent("userleave", (err, stat) => {
+            fire('userleave', uid);
+        });
+    }
+
+    joinChannel(key, name, uid, appid, storeFolder) {
+        return new Promise((resolve, reject) => {
+            let binPath = path.join(__dirname, "./src/sdk/bin/");
+            fs.access(storeFolder, fs.constants.W_OK, (err) => {
+                if(err) {
+                    throw "folder not writable"
+                }
+                const json = {
+                    Recording_Dir: `${storeFolder}`
+                };
+                const cfgPath = path.join(storeFolder, '/cfg.json')
+                fs.writeFile(cfgPath, JSON.stringify(json), err => {
+                    this.recording.joinChannel(key, name, binPath, appid, uid, cfgPath)
+                });
+            });
+    
+        });
     }
 
     setMixLayout(layout) {

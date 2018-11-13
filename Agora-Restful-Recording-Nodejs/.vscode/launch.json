@@ -31,7 +31,7 @@
             "name": "node demo",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/record/demo.js"
+            "program": "${workspaceRoot}/record/sdkdemo.js"
         }
     ]
 }

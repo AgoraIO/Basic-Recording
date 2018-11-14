@@ -13,7 +13,7 @@ This sample application works as a simple restful server to manage recording in 
 	**Note:** If server access is denied, the Agora SDK may fail to transfer the required data.
 
 ## Architecture
-
+![Architecture](https://github.com/AgoraIO/Basic-Recording/blob/master/Agora-Restful-Recording-Nodejs/architecture.png)
 
 ## Quick Start
 ### Backgound Knowledge
@@ -37,8 +37,8 @@ The Agora Recording SDK is not included in the repository. To make everything wo
 
 ```
 fs.mkdir(storageDir, {recursive: true}, err => {
-		//join channel
-		rec.joinChannel(null, "agoratest", 0, YOUR_APP_ID, storageDir);
+	//join channel
+	rec.joinChannel(null, "agoratest", 0, YOUR_APP_ID, storageDir);
 })
 ```
 * Start a Video/Audio conversation using your Agora Video SDK integration with your appid, change the channel name to `agoratest`

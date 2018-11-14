@@ -98,6 +98,7 @@ AgoraSdk::AgoraSdk(): IRecordingEngineEventHandler() {
 
 AgoraSdk::~AgoraSdk() {
   if (m_engine) {
+    m_engine->leaveChannel();
     m_engine->release();
   }
 }
@@ -186,7 +187,7 @@ const agora::recording::RecordingEngineProperties* AgoraSdk::getRecorderProperti
 
 void AgoraSdk::onErrorImpl(int error, agora::linuxsdk::STAT_CODE_TYPE stat_code) {
     cerr << "Error: " << error <<",with stat_code:"<< stat_code << endl;
-    leaveChannel();
+    m_engine->stoppedOnError();
     agora::recording::node_async_call::async_call([this, error, stat_code]() {
         MAKE_JS_CALL_2(REC_EVENT_ERROR, int32, error, int32, stat_code);
     });

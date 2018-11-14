@@ -1,0 +1,132 @@
+const AgoraRecordingSDK = require("../record/AgoraRecordSdk");
+const path = require("path");
+const fs = require("fs");
+const uuidv4 = require('uuid/v4');
+
+class RecordManager{
+    constructor() {
+        this.recorders = {};
+        //initialize output folder
+        const output = path.resolve(__dirname, "./output");
+        if (!fs.existsSync(output)){
+            fs.mkdirSync(output);
+        }
+    }
+
+    //find existing recorder
+    find(sid) {
+        return this.recorders[sid];
+    }
+
+    initStorage(appid, channel, sid) {
+        return new Promise((resolve, reject) => {
+            const storagePath = path.resolve(__dirname, `./output/${sid}`);
+            fs.mkdir(storagePath, {recursive: true}, err => {
+                if(err){
+                    throw err;
+                }
+                resolve(storagePath);
+            });
+        })
+    }
+
+    start(key, appid, channel) {
+        return new Promise((resolve, reject) => {
+            const sid = uuidv4();
+            this.initStorage(appid, channel, sid).then(storagePath => {
+                let sdk = new AgoraRecordingSDK();
+
+                let layout = {
+                    "canvasWidth": 640,
+                    "canvasHeight": 480,
+                    "backgroundColor": "#00ff00",
+                    "regions": []
+                }
+                let recorder = {
+                    appid: appid,
+                    channel: channel,
+                    sdk: sdk,
+                    sid: sid,
+                    layout: layout
+                };
+                sdk.setMixLayout(layout);
+
+                sdk.joinChannel(key || null, channel, 0, appid, storagePath).then(() => {
+                    this.subscribeEvents(recorder);
+                    this.recorders[sid] = recorder;
+                    console.log(`recorder started ${appid} ${channel} ${sid}`)
+                    resolve(recorder);
+                }).catch(e => {
+                    reject(e);
+                });
+            });
+        });
+    }
+
+    subscribeEvents(recorder) {
+        let { sdk, sid, appid, channel } = recorder;
+        sdk.on("error", (err, stat) => {
+            console.error(`sdk stopped due to err code: ${err} stat: ${stat}`);
+            console.log(`stop recorder ${appid} ${channel} ${sid}`)
+            //clear recorder if error received
+            delete this.recorders[`${sid}`];
+        });
+        sdk.on("userleave", (uid) => {
+            //rearrange layout when user leaves
+            sdk.layout.regions = sdk.layout.regions.filter((region) => {
+                return region.uid !== uid
+            })
+            sdk.setMixLayout(sdk.layout);
+        });
+        sdk.on("userjoin", function (uid) {
+            //rearrange layout when new user joins
+            let region = {
+                "x": 0,
+                "y": 0,
+                "width": 320,
+                "height": 240,
+                "zOrder": 1,
+                "alpha": 1,
+                "uid": uid
+            }
+            let {layout} = sdk;
+            switch(layout.regions.length) {
+                case 0:
+                    region.x = 0;
+                    region.y = 0;
+                    break;
+                case 1:
+                    region.x = 320;
+                    region.y = 0;
+                    break;
+                case 2:
+                    region.x = 0;
+                    region.y = 240;
+                    break;
+                case 3:
+                    region.x = 320;
+                    region.y = 240;
+                default:
+                    break;
+            }
+            layout.regions.push(region)
+            sdk.setMixLayout(layout);
+        });
+    }
+
+    stop(sid) {
+        let recorder = this.recorders[sid];
+        if(recorder) {
+            let {sdk, appid, channel} = recorder;
+            sdk.leaveChannel();
+            console.log(`stop recorder ${appid} ${channel} ${sid}`)
+            delete this.recorders[`${sid}`];
+        } else {
+            throw new Error('recorder not exists');
+        }
+    }
+}
+
+
+
+module.exports = new RecordManager();

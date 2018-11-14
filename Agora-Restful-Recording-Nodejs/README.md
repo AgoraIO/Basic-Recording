@@ -78,7 +78,7 @@ rec.on("userleave", function(uid) {
 * Run `node app.js` to start the restful server
 
 ### Predefined APIs
-####Start Recording
+#### Start Recording
 
 - `http://localhost:3000/recorder/v1/start`
   
@@ -111,7 +111,7 @@ Response Properties:
 |success  |bool |operation result   |
 |sid  |string | sid of this operation, need this to stop recorder|
 
-####Stop Recording
+#### Stop Recording
 
 - `http://localhost:3000/recorder/v1/stop`
   

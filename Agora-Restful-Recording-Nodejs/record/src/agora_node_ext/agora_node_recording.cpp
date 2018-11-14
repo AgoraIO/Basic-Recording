@@ -19,11 +19,13 @@ namespace agora {
         void NodeRecordingSdk::Init(Local<Object> &module)
         {
             Isolate *isolate = module->GetIsolate();
+            signal(SIGPIPE, SIG_IGN);
             BEGIN_PROPERTY_DEFINE(NodeRecordingSdk, createInstance, 2) //NodeRecordingSdk count of member var
             PROPERTY_METHOD_DEFINE(joinChannel)
             PROPERTY_METHOD_DEFINE(leaveChannel)
             PROPERTY_METHOD_DEFINE(setMixLayout)
             PROPERTY_METHOD_DEFINE(onEvent)
+            PROPERTY_METHOD_DEFINE(release)
             EN_PROPERTY_DEFINE()
             module->Set(String::NewFromUtf8(isolate, "NodeRecordingSdk"), tpl->GetFunction());
         }
@@ -115,6 +117,7 @@ namespace agora {
                 config.cfgFilePath = const_cast<char*>(str_cfgPath.c_str());
                 config.isMixingEnabled = true;
                 config.mixedVideoAudio = true;
+                config.idleLimitSec = 10;
                 // config.decodeVideo = agora::linuxsdk::VIDEO_FORMAT_MIX_JPG_FILE_TYPE;
                 config.channelProfile = agora::linuxsdk::CHANNEL_PROFILE_LIVE_BROADCASTING;
                 // config.captureInterval = 1;
@@ -268,7 +271,6 @@ namespace agora {
 
             do
             {
-
                 NodeRecordingSdk *pEngine = nullptr;
 
                 napi_status status = napi_ok;
@@ -316,6 +318,26 @@ namespace agora {
             } while (false);
 
             //LOG_LEAVE;
+        }
+
+        NAPI_API_DEFINE(NodeRecordingSdk, release)
+        {
+            do
+            {
+                NodeRecordingSdk *pEngine = nullptr;
+                napi_status status = napi_ok;
+                napi_get_native_this(args, pEngine);
+                CHECK_NATIVE_THIS(pEngine);
+
+                pEngine->m_agorasdk->release();
+            } while (false);
+        }
+
+        NodeRecordingSdk::~NodeRecordingSdk() {
+            if(m_agorasdk) {
+                m_agorasdk->release();
+                m_agorasdk = NULL;
+            }
         }
     }
 }

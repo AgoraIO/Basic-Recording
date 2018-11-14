@@ -42,7 +42,13 @@ class AgoraRecordSdk extends EventEmitter {
                 };
                 const cfgPath = path.join(storeFolder, '/cfg.json')
                 fs.writeFile(cfgPath, JSON.stringify(json), err => {
-                    this.recording.joinChannel(key, name, binPath, appid, uid, cfgPath)
+                    this.recording.joinChannel(key, name, binPath, appid, uid, cfgPath);
+                    this.once("error", err => {
+                        reject(err);
+                    })
+                    this.once("joinchannel", () => {
+                        resolve();
+                    });
                 });
             });
     
@@ -59,6 +65,10 @@ class AgoraRecordSdk extends EventEmitter {
 
     leaveChannel() {
         return this.recording.leaveChannel();
+    }
+
+    release() {
+        return this.recording.release();
     }
 }
 

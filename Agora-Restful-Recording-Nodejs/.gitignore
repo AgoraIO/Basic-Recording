@@ -4,3 +4,4 @@ sdk
 AgoraCoreService
 *.node
 output
+.vscode

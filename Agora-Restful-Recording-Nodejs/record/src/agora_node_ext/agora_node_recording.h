@@ -38,10 +38,11 @@ namespace agora {
             NAPI_API(leaveChannel);
             NAPI_API(setMixLayout);
             NAPI_API(onEvent);
+            NAPI_API(release);
             //NAPI_API(leaveChannel);
         //private:
             NodeRecordingSdk(Isolate *isolate);
-            ~NodeRecordingSdk(){}
+            ~NodeRecordingSdk();
         private:
             DECLARE_CLASS;
             AgoraSdk* m_agorasdk;

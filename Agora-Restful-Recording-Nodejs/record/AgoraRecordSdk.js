@@ -26,7 +26,7 @@ class AgoraRecordSdk extends EventEmitter {
             fire('error', err, stat);
         });
         this.onEvent("userleave", (err, stat) => {
-            fire('userleave', uid);
+            fire('userleave', err, stat);
         });
     }
 

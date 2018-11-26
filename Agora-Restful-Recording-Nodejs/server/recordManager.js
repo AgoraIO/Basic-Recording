@@ -78,7 +78,7 @@ class RecordManager{
             })
             sdk.setMixLayout(sdk.layout);
         });
-        sdk.on("userjoin", function (uid) {
+        sdk.on("userjoin", (uid) => {
             //rearrange layout when new user joins
             let region = {
                 "x": 0,
@@ -89,7 +89,14 @@ class RecordManager{
                 "alpha": 1,
                 "uid": uid
             }
-            let {layout} = sdk;
+            let recorder = this.find(sid);
+
+            if(!recorder) {
+                console.error("no reocrder found");
+                return;
+            }
+
+            let {layout} = recorder;
             switch(layout.regions.length) {
                 case 0:
                     region.x = 0;

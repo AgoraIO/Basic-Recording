@@ -25,6 +25,9 @@ class AgoraRecordSdk extends EventEmitter {
         this.onEvent("error", (err, stat) => {
             fire('error', err, stat);
         });
+        this.onEvent("userjoin", (err, stat) => {
+            fire('userjoin', err, stat);
+        });
         this.onEvent("userleave", (err, stat) => {
             fire('userleave', err, stat);
         });
@@ -42,7 +45,7 @@ class AgoraRecordSdk extends EventEmitter {
                 };
                 const cfgPath = path.join(storeFolder, '/cfg.json')
                 fs.writeFile(cfgPath, JSON.stringify(json), err => {
-                    this.recording.joinChannel(key, name, binPath, appid, uid, cfgPath);
+                    this.recording.joinChannel(key || null, name, binPath, appid, uid, cfgPath);
                     this.once("error", err => {
                         reject(err);
                     })

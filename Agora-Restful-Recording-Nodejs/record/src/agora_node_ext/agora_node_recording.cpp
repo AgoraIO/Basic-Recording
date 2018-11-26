@@ -109,10 +109,17 @@ namespace agora {
                 status = napi_get_value_nodestring_(args[5], cfgPath);
                 CHECK_NAPI_STATUS(status);
                 string str_appid = (string)appid;
-                string str_key = "";
                 string str_name = (string)name;
                 string str_appliteDir = (string)applitDir;
                 string str_cfgPath = (string)cfgPath;
+                string str_key;
+
+                if(key == nullptr) {
+                    str_key = "";
+                } else {
+                    str_key = (string)key;
+                }
+
                 config.appliteDir = const_cast<char*>(str_appliteDir.c_str());
                 config.cfgFilePath = const_cast<char*>(str_cfgPath.c_str());
                 config.isMixingEnabled = true;
@@ -146,7 +153,7 @@ namespace agora {
 
                 //todo
                 // pRecording->m_agorasdk->updateMixModeSetting(0, 0, true);
-                int result = pRecording->m_agorasdk->createChannel(str_appid, "", str_name, uid, config);
+                int result = pRecording->m_agorasdk->createChannel(str_appid, str_key, str_name, uid, config);
                 cout << "pRecording->m_agorasdk->createChannel return result:" << result << endl;
                 napi_set_int_result(args, result);
             } while(false);

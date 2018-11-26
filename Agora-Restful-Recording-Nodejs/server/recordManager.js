@@ -72,14 +72,24 @@ class RecordManager{
             delete this.recorders[`${sid}`];
         });
         sdk.on("userleave", (uid) => {
+            console.log(`user leave ${uid}`);
             //rearrange layout when user leaves
-            sdk.layout.regions = sdk.layout.regions.filter((region) => {
+
+            let recorder = this.find(sid);
+
+            if(!recorder) {
+                console.error("no reocrder found");
+                return;
+            }
+            let {layout} = recorder;
+            layout.regions = layout.regions.filter((region) => {
                 return region.uid !== uid
             })
-            sdk.setMixLayout(sdk.layout);
+            sdk.setMixLayout(layout);
         });
         sdk.on("userjoin", (uid) => {
             //rearrange layout when new user joins
+            console.log(`user join ${uid}`);
             let region = {
                 "x": 0,
                 "y": 0,

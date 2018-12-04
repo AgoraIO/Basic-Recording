@@ -26,6 +26,7 @@ The Agora Recording SDK is not included in the repository. To make everything wo
 * Download the [Agora Recording SDK for Linux](https://www.agora.io/en/download/).
 * Unzip the downloaded SDK package.
 * Copy the unziped folder to `record/src/sdk` folder
+* Run `npm install -g node-gyp` to install addon build tool
 * In terminal change to `record` folder, run `build.sh` (run `build_debug.sh` for debugging purpose), if everything goes smoothly, you should see a file named `agorasdk.node` under `record` folder.
 
 

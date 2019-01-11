@@ -31,6 +31,9 @@ class AgoraRecordSdk extends EventEmitter {
         this.onEvent("userleave", (err, stat) => {
             fire('userleave', err, stat);
         });
+        this.onEvent("activespeaker", uid => {
+            fire("activespeaker", uid)
+        });
     }
 
     joinChannel(key, name, uid, appid, storeFolder) {

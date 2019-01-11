@@ -43,6 +43,7 @@ class AgoraSdk : virtual public agora::recording::IRecordingEngineEventHandler {
 #define REC_EVENT_ERROR "error"
 #define REC_EVENT_USER_JOIN "userjoin"
 #define REC_EVENT_USER_LEAVE "userleave"
+#define REC_EVENT_ACTIVE_SPEAKER "activespeaker"
     public:
             struct NodeEventCallback
             {
@@ -98,13 +99,14 @@ class AgoraSdk : virtual public agora::recording::IRecordingEngineEventHandler {
             onUserOfflineImpl(uid, reason);
         }
 
+        virtual void onActiveSpeaker(uid_t uid);
+
         virtual void audioFrameReceived(unsigned int uid, const agora::linuxsdk::AudioFrame *frame) const {
             audioFrameReceivedImpl(uid, frame);
         }
         virtual void videoFrameReceived(unsigned int uid, const agora::linuxsdk::VideoFrame *frame) const {
             videoFrameReceivedImpl(uid, frame);
         }
-
 
     protected:
         void onErrorImpl(int error, agora::linuxsdk::STAT_CODE_TYPE stat_code);

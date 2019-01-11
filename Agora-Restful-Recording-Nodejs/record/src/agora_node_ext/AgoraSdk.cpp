@@ -241,6 +241,12 @@ void AgoraSdk::onUserOfflineImpl(unsigned uid, agora::linuxsdk::USER_OFFLINE_REA
     });
 }
 
+void AgoraSdk::onActiveSpeaker(uid_t uid) {
+    agora::recording::node_async_call::async_call([this, uid]() {
+        MAKE_JS_CALL_1(REC_EVENT_ACTIVE_SPEAKER, uid, uid);
+    });
+}
+
 void AgoraSdk::audioFrameReceivedImpl(unsigned int uid, const agora::linuxsdk::AudioFrame *pframe) const 
 {
   char uidbuf[65];

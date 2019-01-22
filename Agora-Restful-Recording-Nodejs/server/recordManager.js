@@ -69,7 +69,7 @@ class RecordManager{
             console.error(`sdk stopped due to err code: ${err} stat: ${stat}`);
             console.log(`stop recorder ${appid} ${channel} ${sid}`)
             //clear recorder if error received
-            delete this.recorders[`${sid}`];
+            this.onCleanup(sid)
         });
         sdk.on("userleave", (uid) => {
             console.log(`user leave ${uid}`);
@@ -134,9 +134,21 @@ class RecordManager{
     stop(sid) {
         let recorder = this.recorders[sid];
         if(recorder) {
-            let {sdk, appid, channel} = recorder;
-            sdk.leaveChannel();
+            let {appid, channel} = recorder;
             console.log(`stop recorder ${appid} ${channel} ${sid}`)
+            this.onCleanup(sid);
+        } else {
+            throw new Error('recorder not exists');
+        }
+    }
+
+    onCleanup(sid) {
+        let recorder = this.recorders[sid];
+        if(recorder) {
+            let {sdk} = recorder;
+            console.log(`releasing ${sid}`)
+            sdk.leaveChannel()
+            sdk.release()
             delete this.recorders[`${sid}`];
         } else {
             throw new Error('recorder not exists');

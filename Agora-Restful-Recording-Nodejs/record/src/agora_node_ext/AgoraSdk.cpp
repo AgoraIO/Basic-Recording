@@ -208,6 +208,9 @@ void AgoraSdk::onJoinChannelSuccessImpl(const char * channelId, agora::linuxsdk:
 
 void AgoraSdk::onLeaveChannelImpl(agora::linuxsdk::LEAVE_PATH_CODE code) {
     cout << "leave channel with code:" << code << endl;
+    agora::recording::node_async_call::async_call([this]() {
+        MAKE_JS_CALL_0(REC_EVENT_LEAVE_CHANNEL);
+    });
 }
 
 void AgoraSdk::onUserJoinedImpl(unsigned uid, agora::linuxsdk::UserJoinInfos &infos) {

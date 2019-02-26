@@ -1,5 +1,7 @@
 # Agora Linux Server Recording
 
+*Read this in other languages: [Chinese](README.zh.md)*
+
 This sample application for the Agora Recording SDK enables recording on your Linux server.
 
 ## Prerequisites

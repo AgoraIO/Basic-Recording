@@ -188,130 +188,142 @@ void RecorderManager::StartCloudRecording(const Nan::FunctionCallbackInfo<v8::Va
         status = napi_get_value_uint32_(args[3], uid);
         CHECK_NAPI_STATUS(status);
 
-
-        if(args[4]->IsObject()) {
-            Local<Object> recordConfigJson = args[4]->ToObject(isolate);
-            uint32_t recording_stream_types, decryption_mode, channel_type, audio_profile, video_stream_type;
-            NodeString s_secret;
-            napi_get_object_property_uint32_(isolate, recordConfigJson, "recording_stream_types", recording_stream_types);
-            switch(recording_stream_types) {
-                case 1:
-                    recordConfig.recording_stream_types = kStreamTypeAudioOnly;
-                    break;
-                case 2:
-                    recordConfig.recording_stream_types = kStreamTypeVideoOnly;
-                    break;
-                default:
-                    recordConfig.recording_stream_types = kStreamTypeAudioVideo;
-            }
-            napi_get_object_property_uint32_(isolate, recordConfigJson, "decryption_mode", decryption_mode);
-            switch(decryption_mode) {
-                case 1:
-                    recordConfig.decryption_mode = kModeAes128Xts;
-                    break;
-                case 2:
-                    recordConfig.decryption_mode = kModeAes128Ecb;
-                    break;
-                case 3:
-                    recordConfig.decryption_mode = kModeAes256Xts;
-                    break;
-                default:
-                    recordConfig.decryption_mode = kModeNone;
-            }
-            napi_get_object_property_nodestring_(isolate, recordConfigJson, "secret", s_secret);
+        NodeString s_secret;
+        Local<Object> recordConfigJson = args[4]->ToObject(isolate);
+        uint32_t recording_stream_types, decryption_mode, channel_type, audio_profile, video_stream_type;
+        napi_get_object_property_uint32_(isolate, recordConfigJson, "recording_stream_types", recording_stream_types);
+        switch (recording_stream_types)
+        {
+        case 1:
+            recordConfig.recording_stream_types = kStreamTypeAudioOnly;
+            break;
+        case 2:
+            recordConfig.recording_stream_types = kStreamTypeVideoOnly;
+            break;
+        default:
+            recordConfig.recording_stream_types = kStreamTypeAudioVideo;
+        }
+        napi_get_object_property_uint32_(isolate, recordConfigJson, "decryption_mode", decryption_mode);
+        switch (decryption_mode)
+        {
+        case 1:
+            recordConfig.decryption_mode = kModeAes128Xts;
+            break;
+        case 2:
+            recordConfig.decryption_mode = kModeAes128Ecb;
+            break;
+        case 3:
+            recordConfig.decryption_mode = kModeAes256Xts;
+            break;
+        default:
+            recordConfig.decryption_mode = kModeNone;
+        }
+        napi_get_object_property_nodestring_(isolate, recordConfigJson, "secret", s_secret);
+        if (s_secret != nullptr)
+        {
             string secret = (string)s_secret;
-            recordConfig.secret = const_cast<char*>(secret.c_str());
-            napi_get_object_property_uint32_(isolate, recordConfigJson, "channel_type", channel_type);
-            switch(channel_type) {
-                case 0:
-                    recordConfig.channel_type = kChannelTypeCommunication;
-                    break;
-                case 1:
-                    recordConfig.channel_type = kChannelTypeLive;
-                    break;
-            }
-            napi_get_object_property_uint32_(isolate, recordConfigJson, "video_stream_type", video_stream_type);
-            switch(video_stream_type) {
-                case 1:
-                    recordConfig.video_stream_type = kVideoStreamTypeLow;
-                    break;
-                default:
-                    recordConfig.video_stream_type = kVideoStreamTypeHigh;
-            }
-            napi_get_object_property_uint32_(isolate, recordConfigJson, "audio_profile", audio_profile);
-            switch(audio_profile) {
-                case 1:
-                    recordConfig.audio_profile = kAudioProfileMusicHighQuality;
-                    break;
-                case 2:
-                    recordConfig.audio_profile = kAudioProfileMusicHighQualityStereo;
-                    break;
-                default:
-                    recordConfig.audio_profile = kAudioProfileMusicStandard;
-            }
-            napi_get_object_property_uint32_(isolate, recordConfigJson, "max_idle_time", recordConfig.max_idle_time);
+            recordConfig.secret = const_cast<char *>(secret.c_str());
+        }
+        napi_get_object_property_uint32_(isolate, recordConfigJson, "channel_type", channel_type);
+        switch (channel_type)
+        {
+        case 0:
+            recordConfig.channel_type = kChannelTypeCommunication;
+            break;
+        case 1:
+            recordConfig.channel_type = kChannelTypeLive;
+            break;
+        }
+        napi_get_object_property_uint32_(isolate, recordConfigJson, "video_stream_type", video_stream_type);
+        switch (video_stream_type)
+        {
+        case 1:
+            recordConfig.video_stream_type = kVideoStreamTypeLow;
+            break;
+        default:
+            recordConfig.video_stream_type = kVideoStreamTypeHigh;
+        }
+        napi_get_object_property_uint32_(isolate, recordConfigJson, "audio_profile", audio_profile);
+        switch (audio_profile)
+        {
+        case 1:
+            recordConfig.audio_profile = kAudioProfileMusicHighQuality;
+            break;
+        case 2:
+            recordConfig.audio_profile = kAudioProfileMusicHighQualityStereo;
+            break;
+        default:
+            recordConfig.audio_profile = kAudioProfileMusicStandard;
+        }
+        napi_get_object_property_uint32_(isolate, recordConfigJson, "max_idle_time", recordConfig.max_idle_time);
 
-            Local<Name> keyName = String::NewFromUtf8(args.GetIsolate(), "transcoding_config", NewStringType::kInternalized).ToLocalChecked();
-            Local<Value> keyValue = recordConfigJson->Get(args.GetIsolate()->GetCurrentContext(), keyName).ToLocalChecked();
-            if(keyValue->IsObject()) {
-                TranscodingConfig transcodingConfig;
-                Local<Object> transcodingConfigJson = keyValue->ToObject(isolate);
-                uint32_t layout;
-                napi_get_object_property_uint32_(isolate, transcodingConfigJson, "width", transcodingConfig.width);
-                napi_get_object_property_uint32_(isolate, transcodingConfigJson, "height", transcodingConfig.height);
-                napi_get_object_property_uint32_(isolate, transcodingConfigJson, "fps", transcodingConfig.fps);
-                napi_get_object_property_uint32_(isolate, transcodingConfigJson, "bitrate", transcodingConfig.bitrate);
-                napi_get_object_property_uint32_(isolate, transcodingConfigJson, "max_resolution_uid", transcodingConfig.max_resolution_uid);
+        Local<Name> keyName = String::NewFromUtf8(args.GetIsolate(), "transcoding_config", NewStringType::kInternalized).ToLocalChecked();
+        Local<Value> keyValue = recordConfigJson->Get(args.GetIsolate()->GetCurrentContext(), keyName).ToLocalChecked();
+        if (keyValue->IsObject())
+        {
+            TranscodingConfig transcodingConfig;
+            Local<Object> transcodingConfigJson = keyValue->ToObject(isolate);
+            uint32_t layout;
+            napi_get_object_property_uint32_(isolate, transcodingConfigJson, "width", transcodingConfig.width);
+            napi_get_object_property_uint32_(isolate, transcodingConfigJson, "height", transcodingConfig.height);
+            napi_get_object_property_uint32_(isolate, transcodingConfigJson, "fps", transcodingConfig.fps);
+            napi_get_object_property_uint32_(isolate, transcodingConfigJson, "bitrate", transcodingConfig.bitrate);
+            napi_get_object_property_uint32_(isolate, transcodingConfigJson, "max_resolution_uid", transcodingConfig.max_resolution_uid);
 
-                napi_get_object_property_uint32_(isolate, transcodingConfigJson, "layout", layout);
-                switch(layout) {
-                    case 1:
-                        transcodingConfig.layout = kMixedVideoLayoutTypeBestFit;
-                        break;
-                    case 2:
-                        transcodingConfig.layout = kMixedVideolayoutTypeVertical;
-                        break;
-                    default:
-                        transcodingConfig.layout = kMixedVideoLayoutTypeFloat;
-                }
-                recordConfig.transcoding_config = transcodingConfig;
+            napi_get_object_property_uint32_(isolate, transcodingConfigJson, "layout", layout);
+            switch (layout)
+            {
+            case 1:
+                transcodingConfig.layout = kMixedVideoLayoutTypeBestFit;
+                break;
+            case 2:
+                transcodingConfig.layout = kMixedVideolayoutTypeVertical;
+                break;
+            default:
+                transcodingConfig.layout = kMixedVideoLayoutTypeFloat;
             }
-                
+            recordConfig.transcoding_config = transcodingConfig;
         }
 
-        if(args[5]->IsObject()) {
-            Local<Object> storageConfigJson = args[5]->ToObject(isolate);
-            uint32_t vendor;
-            NodeString s_bucket, s_access_key, s_secret_key;
-            napi_get_object_property_uint32_(isolate, storageConfigJson, "vendor", vendor);
-            switch(vendor) {
-                case 0:
-                    storageConfig.vendor = kCloudStorageVendorQiniu;
-                    break;
-                case 1:
-                    storageConfig.vendor = kCloudStorageVendorAws;
-                    break;
-            }
-            
-            napi_get_object_property_nodestring_(isolate, storageConfigJson, "access_key", s_access_key);
-            string access_key = (string)s_access_key;
-            storageConfig.access_key = const_cast<char*>(access_key.c_str());
-
-            napi_get_object_property_nodestring_(isolate, storageConfigJson, "secret_key", s_secret_key);
-            string secret_key = (string)s_secret_key;
-            storageConfig.secret_key = const_cast<char*>(secret_key.c_str());
-            
-            napi_get_object_property_nodestring_(isolate, storageConfigJson, "bucket", s_bucket);
-            string bucket = (string)s_bucket;
-            storageConfig.bucket = const_cast<char*>(bucket.c_str());
-            
-            napi_get_object_property_uint32_(isolate, storageConfigJson, "region", storageConfig.region);
+        NodeString s_bucket, s_access_key, s_secret_key;
+        Local<Object> storageConfigJson = args[5]->ToObject(isolate);
+        uint32_t vendor;
+        napi_get_object_property_uint32_(isolate, storageConfigJson, "vendor", vendor);
+        switch (vendor)
+        {
+        case 0:
+            storageConfig.vendor = kCloudStorageVendorQiniu;
+            break;
+        case 1:
+            storageConfig.vendor = kCloudStorageVendorAws;
+            break;
         }
+
+        napi_get_object_property_nodestring_(isolate, storageConfigJson, "access_key", s_access_key);
+        string access_key = (string)s_access_key;
+        storageConfig.access_key = const_cast<char *>(access_key.c_str());
+
+        napi_get_object_property_nodestring_(isolate, storageConfigJson, "secret_key", s_secret_key);
+        string secret_key = (string)s_secret_key;
+        storageConfig.secret_key = const_cast<char *>(secret_key.c_str());
+
+        napi_get_object_property_nodestring_(isolate, storageConfigJson, "bucket", s_bucket);
+        string bucket = (string)s_bucket;
+        storageConfig.bucket = const_cast<char *>(bucket.c_str());
+
+        napi_get_object_property_uint32_(isolate, storageConfigJson, "region", storageConfig.region);
 
         string appid = (string)s_appid;
         string cname = (string)s_cname;
-        string token = (string)s_token;
-
+        string token;
+        if (s_token != nullptr)
+        {
+            token = (string)s_token;
+        }
+        else
+        {
+            token = string("");
+        }
 
         RecorderManager *instance = ObjectWrap::Unwrap<RecorderManager>(args.Holder());
         bool result = instance->controller_->StartCloudRecording(appid.c_str(), cname.c_str(), token.c_str(), uid, recordConfig, storageConfig);

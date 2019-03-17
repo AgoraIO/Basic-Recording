@@ -8,8 +8,45 @@ class AgoraCloudRecord extends EventEmitter {
         this.subscribeEvents()
     }
 
-    StartCloudRecording(appid, cname, token, uid, config, storageConfig) {
-        return this.sdk.StartCloudRecording(appid, cname, token, uid, config, storageConfig)
+    StartCloudRecording(appid, cname, token, uid, recordConfig, storageConfig) {
+        if(!appid) {
+            throw new Error('appid is mandatory')
+        }
+
+        if(!cname) {
+            throw new Error('cname is mandatory')
+        }
+
+        token = token || ""
+        uid = parseInt(uid)
+        if(isNaN(uid) && uid < 0) {
+            throw new Error('invalid uid')
+        }
+
+        let recordConfigTemplate = {
+            recording_stream_type: 0,
+            decryption_mode: 0,
+            secret: "",
+            channel_type: 0,
+            video_stream_type: 0,
+            audio_profile: 0,
+            max_idle_time: 15,
+            transcoding_config: null
+        }
+
+        let storageConfigTemplate = {
+            vendor: 0,
+            access_key: "",
+            secret_key: "",
+            bucket: "",
+            region: 0
+        }
+
+        return this.sdk.StartCloudRecording(
+            appid, cname, token, uid,
+            Object.assign(recordConfigTemplate, recordConfig),
+            Object.assign(storageConfigTemplate, storageConfig)
+        )
     }
 
     subscribeEvents() {

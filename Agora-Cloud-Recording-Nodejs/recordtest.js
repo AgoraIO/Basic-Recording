@@ -41,4 +41,6 @@ class RecordingTest {
 }
 
 let test1 = new RecordingTest()
-test1.start("aab8b8f5a8cd4469a63042fcfafe7063", "agoratest", "", 1000, {}, {})
+test1.start("aab8b8f5a8cd4469a63042fcfafe7063", "agoratest", "", 1000, {    
+}, require('./storage.json'))
+

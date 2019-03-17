@@ -49,6 +49,14 @@ class AgoraCloudRecord extends EventEmitter {
         )
     }
 
+    StopCloudRecording() {
+        return this.sdk.StopCloudRecording()
+    }
+
+    Release(keepRecordingInBackground) {
+        return this.sdk.Release(keepRecordingInBackground || false)
+    }
+
     subscribeEvents() {
         let fire = (...args) => {
             setImmediate(() => {

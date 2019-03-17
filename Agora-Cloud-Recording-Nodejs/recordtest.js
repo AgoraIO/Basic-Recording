@@ -34,9 +34,15 @@ class RecordingTest {
     }
 
     start(appid, cname, token, uid, config, storageConfig) {
-        return new Promise((resolve, reject) => {
-            this.recorder.StartCloudRecording(appid, cname, token, uid, config, storageConfig)
-        })
+        this.recorder.StartCloudRecording(appid, cname, token, uid, config, storageConfig)
+    }
+
+    stop() {
+        this.recorder.StopCloudRecording();
+    }
+
+    release() {
+        this.recorder.Release()
     }
 }
 
@@ -44,3 +50,10 @@ let test1 = new RecordingTest()
 test1.start("aab8b8f5a8cd4469a63042fcfafe7063", "agoratest", "", 1000, {    
 }, require('./storage.json'))
 
+setTimeout(() => {
+    test1.stop()
+}, 3000)
+
+setTimeout(() => {
+    test1.release()
+}, 5000)

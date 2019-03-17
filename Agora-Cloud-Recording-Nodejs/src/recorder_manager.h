@@ -51,6 +51,10 @@ class RecorderManager : public Nan::ObjectWrap,
     static void New(const Nan::FunctionCallbackInfo<v8::Value> &info);
     static void StartCloudRecording(
         const Nan::FunctionCallbackInfo<v8::Value> &args);
+    static void StopCloudRecording(
+        const Nan::FunctionCallbackInfo<v8::Value> &args);
+    static void Release(
+        const Nan::FunctionCallbackInfo<v8::Value> &args);
     static void onEvent(const Nan::FunctionCallbackInfo<v8::Value> &args);
 
     void OnRecordingConnecting(RecordingId recording_id);

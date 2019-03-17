@@ -156,6 +156,7 @@ void RecorderManager::Init(Local<Object> exports)
 
     Nan::SetPrototypeMethod(tpl, "StartCloudRecording", StartCloudRecording);
     Nan::SetPrototypeMethod(tpl, "StopCloudRecording", StopCloudRecording);
+    Nan::SetPrototypeMethod(tpl, "GetRecordingId", GetRecordingId);
     Nan::SetPrototypeMethod(tpl, "onEvent", onEvent);
     Nan::SetPrototypeMethod(tpl, "Release", Release);
 
@@ -184,6 +185,13 @@ void RecorderManager::Release(const Nan::FunctionCallbackInfo<v8::Value> &args)
     napi_get_value_bool_(args[0], keepRecordingInBackground);
     instance->controller_->Release(keepRecordingInBackground);
     napi_set_int_result(args, true);
+}
+
+void RecorderManager::GetRecordingId(const Nan::FunctionCallbackInfo<v8::Value> &args)
+{
+    RecorderManager *instance = ObjectWrap::Unwrap<RecorderManager>(args.Holder());
+    RecordingId recording_id = instance->controller_->GetRecordingId();
+    napi_set_string_result(args, recording_id);
 }
 
 void RecorderManager::StartCloudRecording(const Nan::FunctionCallbackInfo<v8::Value> &args)

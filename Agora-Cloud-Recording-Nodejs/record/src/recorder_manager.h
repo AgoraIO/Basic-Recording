@@ -56,6 +56,7 @@ class RecorderManager : public Nan::ObjectWrap,
     static void Release(
         const Nan::FunctionCallbackInfo<v8::Value> &args);
     static void onEvent(const Nan::FunctionCallbackInfo<v8::Value> &args);
+    static void GetRecordingId(const Nan::FunctionCallbackInfo<v8::Value> &args);
 
     void OnRecordingConnecting(RecordingId recording_id);
     void OnRecordingStarted(RecordingId recording_id);

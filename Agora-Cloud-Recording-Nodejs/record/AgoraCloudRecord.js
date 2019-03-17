@@ -8,6 +8,10 @@ class AgoraCloudRecord extends EventEmitter {
         this.subscribeEvents()
     }
 
+    GetRecordingId() {
+        return this.sdk.GetRecordingId();
+    }
+
     StartCloudRecording(appid, cname, token, uid, recordConfig, storageConfig) {
         if(!appid) {
             throw new Error('appid is mandatory')
@@ -19,7 +23,7 @@ class AgoraCloudRecord extends EventEmitter {
 
         token = token || ""
         uid = parseInt(uid)
-        if(isNaN(uid) && uid < 0) {
+        if(isNaN(uid) && uid <= 0) {
             throw new Error('invalid uid')
         }
 

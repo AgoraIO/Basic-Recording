@@ -8,7 +8,14 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/recordtest.js",
+            "program": "${workspaceFolder}/record/recordtest.js",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Server",
+            "program": "${workspaceFolder}/server/app.js",
             "console": "integratedTerminal"
         },
         {

@@ -58,6 +58,7 @@ Parameters:
 |:----    |:---|:----- |-----   |
 |appid |Y  |string |agora appid   |
 |channel |Y  |string | channel name    |
+|uid |Y  |integer | uid    |
 |key     |N  |string | key if certificate is enalbed for your appid    |
 
 Sample Response:

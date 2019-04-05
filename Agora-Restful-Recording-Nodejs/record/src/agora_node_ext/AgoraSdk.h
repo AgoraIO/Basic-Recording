@@ -45,6 +45,12 @@ class AgoraSdk : virtual public agora::recording::IRecordingEngineEventHandler {
 #define REC_EVENT_USER_JOIN "userjoin"
 #define REC_EVENT_USER_LEAVE "userleave"
 #define REC_EVENT_ACTIVE_SPEAKER "activespeaker"
+#define REC_EVENT_CONN_LOST "connectionlost"
+#define REC_EVENT_CONN_INTER "connectioninterrupt"
+#define REC_EVENT_STREAM_CHANGED "receivingstreamstatuschanged"
+#define REC_EVENT_FIRST_VIDEO_FRAME "firstremotevideodecoded"
+#define REC_EVENT_FIRST_AUDIO_FRAME "firstremoteaudioframe"
+#define RTC_EVENT_AUDIO_VOLUME_INDICATION "audiovolumeindication"
     public:
             struct NodeEventCallback
             {
@@ -109,6 +115,12 @@ class AgoraSdk : virtual public agora::recording::IRecordingEngineEventHandler {
             videoFrameReceivedImpl(uid, frame);
         }
 
+        virtual void onAudioVolumeIndication(const agora::linuxsdk::AudioVolumeInfo* speakers, unsigned int speakerNum);
+        virtual void onFirstRemoteVideoDecoded(uid_t uid, int width, int height, int elapsed);
+        virtual void onFirstRemoteAudioFrame(uid_t uid, int elapsed);
+        virtual void onReceivingStreamStatusChanged(bool receivingAudio, bool receivingVideo);
+        virtual void onConnectionLost();
+        virtual void onConnectionInterrupted();
     protected:
         void onErrorImpl(int error, agora::linuxsdk::STAT_CODE_TYPE stat_code);
         void onWarningImpl(int warn);
@@ -121,7 +133,7 @@ class AgoraSdk : virtual public agora::recording::IRecordingEngineEventHandler {
 
         void audioFrameReceivedImpl(unsigned int uid, const agora::linuxsdk::AudioFrame *frame) const;
         void videoFrameReceivedImpl(unsigned int uid, const agora::linuxsdk::VideoFrame *frame) const;
-
+        void onAudioVolumeIndication_node(const agora::linuxsdk::AudioVolumeInfo* sperkers, unsigned int speakerNumber);
     protected:
         atomic_bool_t m_stopped;
         std::vector<agora::linuxsdk::uid_t> m_peers;

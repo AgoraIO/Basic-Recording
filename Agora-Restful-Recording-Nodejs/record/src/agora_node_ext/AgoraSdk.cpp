@@ -372,5 +372,73 @@ void AgoraSdk::emitError(int err, int stat_code) {
         MAKE_JS_CALL_2(REC_EVENT_ERROR, int32, err, int32, stat_code);
     });
 }
+
+//added 2.3.3
+void AgoraSdk::onAudioVolumeIndication_node(const agora::linuxsdk::AudioVolumeInfo* speakers, unsigned int speakerNumber) {
+    auto it = m_callbacks.find(RTC_EVENT_AUDIO_VOLUME_INDICATION);
+    if (it != m_callbacks.end()) {
+        Isolate *isolate = Isolate::GetCurrent();
+        HandleScope scope(isolate);
+        Local<v8::Array> arrSpeakers = v8::Array::New(isolate, speakerNumber);
+        for(int i = 0; i < speakerNumber; i++) {
+            Local<Object> obj = Object::New(isolate);
+            obj->Set(napi_create_string_(isolate, "uid"), napi_create_uid_(isolate, speakers[i].uid));
+            obj->Set(napi_create_string_(isolate, "volume"), napi_create_uint32_(isolate, speakers[i].volume));
+            arrSpeakers->Set(i, obj);
+        }
+
+        Local<Value> argv[2]{ arrSpeakers,
+                            napi_create_uint32_(isolate, speakerNumber)
+                            };
+        NodeEventCallback& cb = *it->second;
+        cb.callback.Get(isolate)->Call(cb.js_this.Get(isolate), 2, argv);
+    }
+}
+
+void AgoraSdk::onAudioVolumeIndication(const agora::linuxsdk::AudioVolumeInfo* speakers, unsigned int speakerNum){
+    if (speakers) {
+        agora::linuxsdk::AudioVolumeInfo* localSpeakers = new agora::linuxsdk::AudioVolumeInfo[speakerNum];
+        for(int i = 0; i < speakerNum; i++) {
+            agora::linuxsdk::AudioVolumeInfo tmp = speakers[i];
+            localSpeakers[i].uid = tmp.uid;
+            localSpeakers[i].volume = tmp.volume;
+        }
+        agora::recording::node_async_call::async_call([this, localSpeakers, speakerNum] {
+            this->onAudioVolumeIndication_node(localSpeakers, speakerNum);
+            delete []localSpeakers;
+        });
+    }
+}
+
+void AgoraSdk::onFirstRemoteVideoDecoded(uid_t uid, int width, int height, int elapsed) {
+    agora::recording::node_async_call::async_call([this, uid, width, height, elapsed]() {
+        MAKE_JS_CALL_4(REC_EVENT_FIRST_VIDEO_FRAME, uid, uid, int32, width, int32, height, int32, elapsed);
+    });
+}
+
+void AgoraSdk::onFirstRemoteAudioFrame(uid_t uid, int elapsed) {
+    agora::recording::node_async_call::async_call([this, uid, elapsed]() {
+        MAKE_JS_CALL_2(REC_EVENT_FIRST_AUDIO_FRAME, uid, uid, int32, elapsed);
+    });
+}
+
+void AgoraSdk::onReceivingStreamStatusChanged(bool receivingAudio, bool receivingVideo) {
+    agora::recording::node_async_call::async_call([this, receivingAudio, receivingVideo]() {
+        MAKE_JS_CALL_2(REC_EVENT_STREAM_CHANGED, bool, receivingAudio, bool, receivingVideo);
+    });
+}
+
+void AgoraSdk::onConnectionLost() {
+    agora::recording::node_async_call::async_call([this]() {
+        MAKE_JS_CALL_0(REC_EVENT_CONN_LOST);
+    });
+}
+
+void AgoraSdk::onConnectionInterrupted() {
+    agora::recording::node_async_call::async_call([this]() {
+        MAKE_JS_CALL_0(REC_EVENT_CONN_INTER);
+    });
+}
+
 }
 

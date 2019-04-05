@@ -249,7 +249,7 @@ namespace agora {
                     regionList[i].width = width / canvasWidth;
                     regionList[i].height = height / canvasHeight;
                     regionList[i].alpha = alpha;
-                    regionList[i].zOrder = zOrder;
+                    // regionList[i].zOrder = zOrder;
                     regionList[i].renderMode = 0;
                 }
 

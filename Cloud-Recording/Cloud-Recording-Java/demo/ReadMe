@@ -1,0 +1,44 @@
+1.Introduction:
+  Cloud Recording JAVA SDK provides a JAVA API for Agora Cloud Recording Clients.
+  The name of interface is almost similiar with the one of raw C++.
+  Use this SDK, you can easily access to our Agora Cloud Recording System and enjoy the Cloud Recoding service.
+  The final record files will be stored on the Cloud Storage provided by clients themselves.
+    
+2.Environment:
+  Please check you have installed JAVA. Until now, OpenJDK 1.6+ has been tested and can work.
+
+3.Guidance:
+  (1) API
+  createCloudRecorderInstance
+    Before everything, You should create an instance at first.
+    This instance can be used to start and stop recording.
+  
+  startCloudRecording
+    After create instance, you can use this instance to start cloud recording.
+    Cloud Recording System will check your provided info first and start recording if everything is ok.
+
+  stopCloudRecording
+    After start recording, you can stop the recording every time using the same instance.
+
+  release
+    Be remember to release the instance when you don't use it any more. It will clean up the resource.
+
+  More details please refer to related docs
+
+  (2) Usage
+  Under the demo folder, you can see demo codes and we have generated the jar by this codes under target folder.
+  If you want to run this demo, you can try:
+    java -Xbootclasspath/a:../lib/agora-cloud-recording-sdk.jar: -jar -Dsun.boot.library.path=../lib target/cloud-recording-client-demo-1.0-SNAPSHOT.jar <options>
+  For the <option>, you can use "-h" to get the help info
+  Also you can input some commands when the demo is running(demo will start cloud recording automatically):
+    "help": see the detailed command
+    "stop": it will call stopCloudRecording
+    "quit": it will quit the demo
+  After recording stopped, the instance will be released automatically.
+
+  If you want to call these APIs by your own code, please remember to include these two lib file under libs folder:
+    libagora-cloud-recording-java.so is the JNI C++ lib
+    agora-cloud-recording-sdk.jar is the java sdk jar
+  
+  Also you can set CLASSPATH to specify the lib path.
+  

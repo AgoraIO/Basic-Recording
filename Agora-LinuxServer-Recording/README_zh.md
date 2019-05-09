@@ -18,9 +18,9 @@
 - 
 
 ### 创建Agora账号并获取App ID
-1.在[声网开发者中心](https://dashboard.agora.io/cn/signup/) 注册账号
-2.在[我的主页]->[项目管理]创建自己的项目，获取到 AppID
-3.该AppID用于运行sample应用和个人项目管理
+- 在[Agora开发者中心](https://dashboard.agora.io/cn/signup/) 注册账号
+- 在[我的主页]->[项目管理]创建自己的项目，获取到 AppID
+- 该AppID用于运行Agora应用程序
 
 ## 编译运行
 

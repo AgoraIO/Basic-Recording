@@ -53,21 +53,26 @@
  - 8000
  - 25000
  
- 2. 确保本地端口没有被防火墙禁掉。如果打开了防火墙，可单独放开以下端口范围（端口是可变的，确保与录制API接口设置的对应）
- 
-	Port type|Setting
+ 2. 确保本地端口没有被防火墙禁掉。如果打开了防火墙，可打开Agora设定的端口范围。你可以为多个录制进程统一配置较大的端口范围（Agora 建议 40000 ~ 41000 或更大）。此时，录制 SDK 会在指定范围内为每个录制进程分配端口，并避免端口的冲突。要设置端口范围，你需要配置参数 lowUdpPort 和highUdpPort。
+	
+	端口类型|范围
 	----|----
-	Receiving port|4000 - 41000
+	接收码流端口|40000 - 41000
 	Low UDP Port|40000
 	High UDP Port|41000
 	
+3. 进入`samples/cpp`目录下，执行以下命令进行编译,编译成功后你讲看到`record_local`可执行程序
+       `make`
 
-- 把lib下的库解压
-- 进入samples 的路径下执行以下命令进行编译。
+4. 运行`./record_local`，即可看到相关用法，填上相应的参数即可进行录制
 
-make
+       ```
+	./recorder_local --appId APPID --uid 0 --channel mychannel --appliteDir PATH-TO-PROJECT/bin/AgoraCoreService
+	```
 
-## 运行 ./Record_local, 即可看到相关用法
+## 快速通道
+
+解压下载的录制SDK后，进入`samples/cpp`后，执行`make`编译，然后运行编译生成的` ./Record_local`, 即可看到相关用法
 
 ## 联系我们
 

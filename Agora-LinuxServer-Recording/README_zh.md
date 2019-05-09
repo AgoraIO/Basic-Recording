@@ -28,7 +28,8 @@
 ### 下载Agora Recording SDK
 - 下载[录制SDK](https://docs.agora.io/cn/Agora%20Platform/downloads)
 - 解压下载的SDK包
-- 将解压后的文件/文件夹拷贝到相应的项目应用中
+- 将解压后的文件/文件夹拷贝到相应的项目应用中：
+
 SDK 路径|Sample 路径
 	----|----
 	`bin/AgoraCoreService` 文件|拷贝到`bin` 文件夹

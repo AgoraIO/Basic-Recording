@@ -14,7 +14,7 @@
 - 与公网互通，并能够访问qos.agoralab.co
 
 ## 快速开始
-- [创建Agora账号并获取App ID](#)
+- [创建Agora账号并获取App ID](###)
 - 
 
 ### 创建Agora账号并获取App ID

@@ -8,13 +8,10 @@
 ## 准备工作
 
 请确保满足以下操作系统要求:
-
-Ubuntu 12.04 x64 或更高版本
-CentOS 6.5 x64 或更高版本
-
-#请确保满足以下编译器要求: gcc 4.4 或更高版本。
-
-#准备一个 App ID，在 [Agora.io 注册](https://dashboard.agora.io/cn/signup/) 注册账号，并创建自己的测试项目，获取到 AppID。
+- Ubuntu 12.04 x64 或更高版本
+- CentOS 6.5 x64 或更高版本
+- 请确保满足以下编译器要求: gcc 4.4 或更高版本。
+- 准备一个 App ID，在 [Agora.io 注册](https://dashboard.agora.io/cn/signup/) 注册账号，并创建自己的测试项目，获取到 AppID。
 
 
 ## 编译运行

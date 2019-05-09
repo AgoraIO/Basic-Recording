@@ -17,7 +17,7 @@
 - [创建Agora账号并获取App ID](#创建Agora账号并获取App ID)
 - 
 
-## 创建Agora账号并获取App ID
+### 创建Agora账号并获取App ID
 准备一个 App ID，在 [Agora.io 注册](https://dashboard.agora.io/cn/signup/) 注册账号，并创建自己的测试项目，获取到 AppID。
 
 ## 编译运行

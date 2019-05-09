@@ -21,6 +21,7 @@
 - 在[Agora开发者中心](https://dashboard.agora.io/cn/signup/) 注册账号
 - 在[我的主页]->[项目管理]创建自己的项目，获取到 AppID
 - 该AppID用于运行Agora应用程序
+ **Note：** 该AppID请妥善保存，请勿外泄。
 
 ## 编译运行
 

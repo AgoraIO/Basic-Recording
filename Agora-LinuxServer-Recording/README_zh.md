@@ -3,7 +3,7 @@
 
 *Read this in other languages: [English](README.md)*
 
-#详细信息请参考 [录制快速入门](https://docs.agora.io/cn/user_guide/communication/recording_qs.html)
+#详细信息请参考 [录制快速入门](https://docs.agora.io/cn/Recording/product_recording?platform=All%20Platforms)
 
 ## 准备工作
 

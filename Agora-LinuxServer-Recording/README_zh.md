@@ -5,7 +5,7 @@
 
 #详细信息请参考 [录制快速入门](https://docs.agora.io/cn/user_guide/communication/recording_qs.html)
 
-##准备工作
+## 准备工作
 
 请确保满足以下操作系统要求:
 
@@ -17,14 +17,14 @@ CentOS 6.5 x64 或更高版本
 #准备一个 App ID，在 [Agora.io 注册](https://dashboard.agora.io/cn/signup/) 注册账号，并创建自己的测试项目，获取到 AppID。
 
 
-##编译运行
+## 编译运行
 
 - 把lib下的库解压
 - 进入samples 的路径下执行以下命令进行编译。
 
 make
 
-##运行 ./Record_local, 即可看到相关用法
+## 运行 ./Record_local, 即可看到相关用法
 
 ## 联系我们
 

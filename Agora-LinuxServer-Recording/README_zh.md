@@ -15,16 +15,29 @@
 
 ## 快速开始
 - [创建Agora账号并获取App ID](###)
-- 
+- [下载Agora Recording SDK](###)
+- [编译运行].(###)
 
 ### 创建Agora账号并获取App ID
 - 在[Agora开发者中心](https://dashboard.agora.io/cn/signup/) 注册账号
 - 在[我的主页]->[项目管理]创建自己的项目，获取到 AppID
 - 该AppID用于运行Agora应用程序
  
- **Note：** 该AppID请妥善保存，请勿外泄。
+ **Note：** 该AppID用于运行你的Agora项目，请妥善保存，勿外泄。
 
-## 编译运行
+### 下载Agora Recording SDK
+- 下载[录制SDK](https://docs.agora.io/cn/Agora%20Platform/downloads)
+- 解压下载的SDK包
+- 将解压后的文件/文件夹拷贝到相应的项目应用中
+SDK 路径|Sample 路径
+	----|----
+	`bin/AgoraCoreService` 文件|拷贝到`bin` 文件夹
+	`libs/librecorder.a` 文件|拷贝到 `libs` 文件夹
+	`samples/agorasdk` 文件夹|拷贝到 `samples` 文件夹
+	`samples/cpp` 文件夹|拷贝到 `samples` 文件夹
+	`samples/java` 文件夹| 拷贝到 `samples` 文件夹
+
+### 编译运行
 
 - 把lib下的库解压
 - 进入samples 的路径下执行以下命令进行编译。

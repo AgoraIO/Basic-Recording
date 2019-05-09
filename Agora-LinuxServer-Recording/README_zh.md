@@ -37,6 +37,12 @@
 	`samples/agorasdk` 文件夹|拷贝到 `samples` 文件夹
 	`samples/cpp` 文件夹|拷贝到 `samples` 文件夹
 	`samples/java` 文件夹| 拷贝到 `samples` 文件夹
+	
+- 将下面项目中下面的文件替换成下载的SDK包里的文件
+  - `include` 文件夹
+  - `tools` 文件夹
+  - `base` 文件夹
+ - 将`libs`文件夹内的`libRecordEngine.tar.gz`解压
 
 ### 编译运行
 

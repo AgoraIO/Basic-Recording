@@ -14,9 +14,6 @@
 - 与公网互通，并能够访问qos.agoralab.co
 
 ## 快速开始
-- [创建Agora账号并获取App ID](###)
-- [下载Agora Recording SDK](###)
-- [编译运行].(###)
 
 ### 创建Agora账号并获取App ID
 - 在[Agora开发者中心](https://dashboard.agora.io/cn/signup/) 注册账号
@@ -65,8 +62,7 @@
        `make`
 
 4. 运行`./record_local`，即可看到相关用法，填上相应的参数即可进行录制
-
-       ```
+	```
 	./recorder_local --appId APPID --uid 0 --channel mychannel --appliteDir PATH-TO-PROJECT/bin/AgoraCoreService
 	```
 

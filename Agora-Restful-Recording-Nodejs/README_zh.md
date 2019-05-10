@@ -46,7 +46,7 @@ fs.mkdir(storageDir, {recursive: true}, err => {
 录制的布局通过方法 `setMixedLayout`调整
 In this demo we layout user images from top-left to bottom-right.
 
-The demo re-layout the images when new user arrives or existing user leaves.
+当有用户加入频道或者频道内用户退出时都会更新布局
 
 ```
 rec.on("userjoin", function(uid) {
@@ -68,32 +68,32 @@ rec.on("userleave", function(uid) {
 });
 ```
 
-## Run Restful Server Sample
-### Quick Start
-* Ensure `agorasdk.node` in `record` folder has been properly compiled based on previous steps
-* Change to `server` folder
-* Run `npm install` to install server dependencies
-* Run `node app.js` to start the restful server
+## 运行Restful Server
+### 快速开始
+* 确保 `agorasdk.node` 在 `record` 已经被正确编译
+* 切换到`server` 目录
+* 运行 `npm install`安装依赖库
+* 运行 `node app.js` 
 
-### Predefined APIs
-#### Start Recording
+### 预定义 APIs
+#### 开始录制
 
 - `http://localhost:3000/recorder/v1/start`
   
-Method:
+方法:
 
 - POST
 
-Parameters:
+参数:
  
 
-|Name|Mandatory|Type|Desc|
+|参数名|是否必须|类型|描述|
 |:----    |:---|:----- |-----   |
-|appid |Y  |string |agora appid   |
-|channel |Y  |string | channel name    |
-|key     |N  |string | key if certificate is enalbed for your appid    |
+|appid |是  |string |Agora AppId |
+|channel |是  |string | 频道名    |
+|key     |否 |string |取决于你是否开启了App ID Certificate  |
 
-Sample Response:
+Sample 应答:
 
 ```
 {
@@ -102,29 +102,29 @@ Sample Response:
 }
 ```
 
-Response Properties:
+应答 属性:
 
-|Name|Type|Desc|
+|名称|类型|描述|
 |:----|:----- |-----   |
-|success  |bool |operation result   |
-|sid  |string | sid of this operation, need this to stop recorder|
+|success  |bool |执行结果   |
+|sid  |string | 录制sessionId，用于结束录制 |
 
-#### Stop Recording
+#### 结束录制
 
 - `http://localhost:3000/recorder/v1/stop`
   
-Method:
+方法:
 
 - POST
 
-Parameters:
+参数:
  
 
-|Name|Mandatory|Type|Desc|
+|名称|是否必须|类型|描述|
 |:----    |:---|:----- |-----   |
-|sid |Y  |string |sid when you start the recorder   |
+|sid |是  |string |开启录制时的sessionId  |
 
-Sample Response:
+Sample 应答:
 
 ```
 {
@@ -132,16 +132,16 @@ Sample Response:
 }
 ```
 
-Response Properties:
+应答 属性:
 
-|Name|Type|Desc|
+|名称|类型|描述|
 |:----|:----- |-----   |
-|success  |bool |operation result   |
+|success  |bool |执行结果   |
 
-## Resources
-- See full API documentation in the [Document Center](https://docs.agora.io/en/)
-- [File bugs about this sample](https://github.com/AgoraIO/Basic-Recording/issues)
-- See [detailed Agora Linux Recording guides](https://docs.agora.io/en/2.3.1/addons/Recording/Quickstart%20Guide/recording_cpp?platform=C%2B%2B)
+## 联系我们
+- 完整的 API 文档见 [文档中心](https://docs.agora.io/en/)
+- [如果在集成中遇到问题, 你可以到](https://github.com/AgoraIO/Basic-Recording/issues)[提问]
+- 详情请参考 [录制快速入门](https://docs.agora.io/en/2.3.1/addons/Recording/Quickstart%20Guide/recording_cpp?platform=C%2B%2B)
 
-## License
-This software is licensed under the MIT License (MIT). [View the license](LICENSE.md).
+## 证书
+This software is licensed under the MIT License (MIT). [预览证书](LICENSE.md).

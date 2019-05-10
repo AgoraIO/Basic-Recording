@@ -140,7 +140,7 @@ Sample 应答:
 
 ## 联系我们
 - 完整的 API 文档见 [文档中心](https://docs.agora.io/en/)
-- [如果在集成中遇到问题, 你可以到](https://github.com/AgoraIO/Basic-Recording/issues)[提问]
+- 如果在集成中遇到问题, 你可以到[开发者社区](https://github.com/AgoraIO/Basic-Recording/issues)提问
 - 详情请参考 [录制快速入门](https://docs.agora.io/en/2.3.1/addons/Recording/Quickstart%20Guide/recording_cpp?platform=C%2B%2B)
 
 ## 证书

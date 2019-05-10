@@ -9,7 +9,7 @@
 - Ubuntu 12.04 x64 或更高版本
 - CentOS 6.5 x64 或更高版本
 - gcc 4.4 或更高版本。
-- 与公网互通，并能够访问qos.agoralab.co
+- 与公网互通，并能够访问`qos.agoralab.co`
 
 ## 快速开始
 

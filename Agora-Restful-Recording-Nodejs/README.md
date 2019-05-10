@@ -1,5 +1,7 @@
 # Agora Restful Recording Nodejs
 
+*Read this in other languages: [中文](README_zh.md)*
+
 This sample application works as a simple restful server to manage recording in an easy way.
 
 ## Prerequisites

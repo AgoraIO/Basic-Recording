@@ -70,10 +70,9 @@
 - C++版：进入`samples/cpp`后，执行`make`编译，然后运行编译生成的` ./Record_local`, 即可看到相关用法
 - Java版：进入`samples/java`后，按照文件夹中的ReadMe编译，编译生成的文件在目录`samples/java/bin`中，进入该目录执行`java -Djava.library.path=io/agora/recording/ RecordingSample`，即可看到相关用法
 
-### 详细信息请参考 [录制快速入门](https://docs.agora.io/cn/Recording/product_recording?platform=All%20Platforms)
-
 ## 联系我们
 
+- 详细信息请参考 [录制快速入门](https://docs.agora.io/cn/Recording/product_recording?platform=All%20Platforms)
 - 完整的 API 文档见 [文档中心](https://docs.agora.io/cn/)
 - 如果在集成中遇到问题, 你可以到 [开发者社区](https://dev.agora.io/cn/) 提问
 - 如果有售前咨询问题, 可以拨打 400 632 6626，或加入官方Q群 12742516 提问

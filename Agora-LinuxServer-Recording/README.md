@@ -100,7 +100,7 @@ cmds ./Record_local
 - A detailed code walkthrough for this sample is available in [Steps to Create this Sample](./guide.md).
 - See full API documentation in the [Document Center](https://docs.agora.io/en/)
 - [File bugs about this sample](https://github.com/AgoraIO/Basic-Recording/issues)
-- See [detailed Agora Linux Recording guides](https://docs.agora.io/en/2.3.1/addons/Recording/Quickstart%20Guide/recording_cpp?platform=C%2B%2B)
+- See [detailed Agora Linux Recording guides](https://docs.agora.io/en/Recording/recording_integrate_cpp?platform=CPP)
 
 ## License
 This software is licensed under the MIT License (MIT). [View the license](LICENSE.md).

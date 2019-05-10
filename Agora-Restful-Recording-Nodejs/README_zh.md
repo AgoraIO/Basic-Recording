@@ -2,41 +2,37 @@
 
 *Read this in other languages: [English](README.md)*
 
-This sample application works as a simple restful server to manage recording in an easy way.
+该文档介绍如何以Restful API的形式快速实现录制。
 
-## Prerequisites
-- Ubuntu 12.04+ x64 or CentOS 6.5+ x64 (CentOS 7+ recommended)
+## 准备工作
+请确保满足以下操作系统要求:
+- Ubuntu 12.04 x64 或更高版本 或者 CentOS 6.5 x64 或更高版本(推荐CentOS 7)
 - GCC 4.4+
-- ARS IP (public IP)
-- 1MB+ bandwidth for each simultaneous recording channel
-- Server access for `qos.agoralab.co`
 - NodeJS 8.9+
+- 与公网互通，并且能够访问`qos.agoralab.co`
+- 每一个录制频道至少1MB+的带宽
 
-	**Note:** If server access is denied, the Agora SDK may fail to transfer the required data.
+## 架构
+![架构](https://github.com/AgoraIO/Basic-Recording/blob/master/Agora-Restful-Recording-Nodejs/architecture.png)
 
-## Architecture
-![Architecture](https://github.com/AgoraIO/Basic-Recording/blob/master/Agora-Restful-Recording-Nodejs/architecture.png)
+## 快速开始
+### 背景知识
+该项目依赖于你已经了解了如何使用Agora录制SDK。或者再开始之前阅读[这里](https://github.com/AgoraIO/Basic-Recording/tree/master/Agora-LinuxServer-Recording) 
 
-## Quick Start
-### Backgound Knowledge
-This project presumes you have basic ideas of how Agora Recording SDK works, if not please read [here](https://github.com/AgoraIO/Basic-Recording/tree/master/Agora-LinuxServer-Recording) carefully before start.
+### 下载 Agora 录制 SDK
 
-### Integrate the Agora Recording SDK
-
-The Agora Recording SDK is not included in the repository. To make everything work, you need to do the following, 
-
-* Download the [Agora Recording SDK for Linux](https://www.agora.io/en/download/).
-* Unzip the downloaded SDK package.
-* Copy the unziped folder to `record/src/sdk` folder
-* Run `npm install -g node-gyp` to install addon build tool
-* In terminal change to `record` folder, run `build.sh` (run `build_debug.sh` for debugging purpose), if everything goes smoothly, you should see a file named `agorasdk.node` under `record` folder.
+* 下载[Agora 录制 SDK](https://www.agora.io/en/download/).
+* 解压下载的SDK包.
+* 把解压后的子文件夹拷贝到目录 `record/src/sdk` 
+* 运行`npm install -g node-gyp` 安装编译工具
+* 切换到目录 `record`, 运行`build.sh` (运行`build_debug.sh`可编译debug版)。如果一切运行顺利，你会在`record`目录内看到`agorasdk.node`
 
 
-## Run Recording Sample
-### Quick Start 
-* Change to `record` folder
-* Ensure `agorasdk.node` has been properly compiled based on previous steps
-* Change the code in `sdkdemo.js`, replace the placeholder with the appid you registered from Agora Official Website
+## 运行录制 Sample
+### 快速开始
+* 进入目录`record` 
+* 确保 `agorasdk.node`已经正确的编译
+* 更改目录下文件 `sdkdemo.js`, 替换里面的App ID
 
 ```
 fs.mkdir(storageDir, {recursive: true}, err => {
@@ -44,11 +40,10 @@ fs.mkdir(storageDir, {recursive: true}, err => {
 	rec.joinChannel(null, "agoratest", 0, YOUR_APP_ID, storageDir);
 })
 ```
-* Start a Video/Audio conversation using your Agora Video SDK integration with your appid, change the channel name to `agoratest`
-* Run `node sdkdemo.js`, and you should see your recording files under `output` folder
+* 运行 `node sdkdemo.js`, 你会看到生成的`output`文件夹。该演示Demo仅运行50秒便退出声网频道
 
-### Layout Adjustment
-The Layout is controlled via function `setMixedLayout`.
+### 调整布局
+录制的布局通过方法 `setMixedLayout`调整
 In this demo we layout user images from top-left to bottom-right.
 
 The demo re-layout the images when new user arrives or existing user leaves.

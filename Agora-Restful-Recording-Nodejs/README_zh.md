@@ -144,4 +144,4 @@ Sample 应答:
 - 详情请参考 [录制快速入门](https://docs.agora.io/en/2.3.1/addons/Recording/Quickstart%20Guide/recording_cpp?platform=C%2B%2B)
 
 ## 证书
-This software is licensed under the MIT License (MIT). [预览证书](LICENSE.md).
+本软件是根据麻省理工学院许可协议(MIT)授权的. [预览证书](LICENSE.md).

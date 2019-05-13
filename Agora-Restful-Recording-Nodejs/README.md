@@ -98,6 +98,11 @@ Parameters:
 |channel |Y  |string | channel name    |
 |key     |N  |string | key if certificate is enalbed for your appid    |
 
+Example:
+```
+curl -i -X POST -H "Content-type: application/json" --data '{"appid":"XXXXX","channel":"XXXX","key":"XXXX"}' 127.0.0.1:3000/recorder/v1/start 
+```
+
 Sample Response:
 
 ```

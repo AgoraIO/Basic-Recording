@@ -30,6 +30,7 @@
 	`bin/AgoraCoreService` 文件|拷贝到`bin` 文件夹
 	`libs/librecorder.a` 文件|拷贝到 `libs` 文件夹
 	`samples/agorasdk` 文件夹|拷贝到 `samples` 文件夹
+	`samples/base` 文件夹|拷贝到 `samples` 文件夹
 	`samples/cpp` 文件夹|拷贝到 `samples` 文件夹
 	`samples/java` 文件夹| 拷贝到 `samples` 文件夹
 	

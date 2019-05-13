@@ -42,6 +42,7 @@ To open and build the sample application, first integrate the Agora SDK.
 	`bin/AgoraCoreService` file|Copy to`bin` folder
 	`libs/librecorder.a` file|Copy to `libs` folder
 	`samples/agorasdk` folder|Copy to `samples` folder
+	`samples/base` folder|Copy to `samples` folder
 	`samples/cpp` folder|Copy to `samples` folder
 	`samples/java` folder| Copy to `samples` folder
 

@@ -92,6 +92,11 @@ rec.on("userleave", function(uid) {
 |channel |是  |string | 频道名    |
 |key     |否 |string |取决于你是否开启了App ID Certificate  |
 
+参考：
+```
+curl -i -X POST -H "Content-type: application/json" --data '{"appid":"XXXXX","channel":"XXXX","key":"XXXX"}' 127.0.0.1:3000/recorder/v1/start 
+```
+
 Sample 应答:
 
 ```

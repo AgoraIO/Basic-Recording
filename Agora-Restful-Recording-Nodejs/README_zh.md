@@ -43,8 +43,7 @@ fs.mkdir(storageDir, {recursive: true}, err => {
 * 运行 `node sdkdemo.js`, 你会看到生成的`output`文件夹。该演示Demo仅运行50秒便退出声网频道
 
 ### 调整布局
-录制的布局通过方法 `setMixedLayout`调整
-In this demo we layout user images from top-left to bottom-right.
+录制的布局通过方法 `setMixedLayout`调整。关于布局，详情参考:[video_mixing_layout](https://docs.agora.io/cn/Recording/API%20Reference/recording_cpp/structagora_1_1linuxsdk_1_1_video_mixing_layout.html)
 
 当有用户加入频道或者频道内用户退出时都会更新布局
 

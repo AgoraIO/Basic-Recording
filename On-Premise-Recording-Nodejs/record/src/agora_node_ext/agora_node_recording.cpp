@@ -150,7 +150,7 @@ namespace agora {
                 out << layout.canvasWidth << "," << layout.canvasHeight << ",15," << resolutionValue;
                 string mixResolution = out.str();
                 config.mixResolution = &mixResolution[0u];
-
+                config.audioIndicationInterval = 0;
                 //todo
                 // pRecording->m_agorasdk->updateMixModeSetting(0, 0, true);
                 int result = pRecording->m_agorasdk->createChannel(str_appid, str_key, str_name, uid, config);

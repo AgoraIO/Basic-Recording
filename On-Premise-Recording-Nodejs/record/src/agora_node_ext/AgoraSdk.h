@@ -6,12 +6,12 @@
 #include <vector>
 #include <algorithm>
 #include "node_napi_api.h"
+#include "node_uid.h"
 
 #include "IAgoraLinuxSdkCommon.h"
 #include "IAgoraRecordingEngine.h"
 
 #include "base/atomic.h"
-#include "base/log.h" 
 #include "opt_parser.h" 
 
 namespace agora {
@@ -51,6 +51,15 @@ class AgoraSdk : virtual public agora::recording::IRecordingEngineEventHandler {
 #define REC_EVENT_FIRST_VIDEO_FRAME "firstremotevideodecoded"
 #define REC_EVENT_FIRST_AUDIO_FRAME "firstremoteaudioframe"
 #define RTC_EVENT_AUDIO_VOLUME_INDICATION "audiovolumeindication"
+#define REC_EVENT_REMOTE_VIDEO_STREAM_STATE_CHANGED "remoteVideoStreamStateChanged"
+#define REC_EVENT_REMOTE_AUDIO_STREAM_STATE_CHANGED "remoteAudioStreamStateChanged"
+#define REC_EVENT_REJOIN_SUCCESS "rejoinChannelSuccess"
+#define REC_EVENT_CONN_STATE_CHANGED "connectionStateChanged"
+#define REC_EVENT_REMOTE_VIDEO_STATS "remoteVideoStats"
+#define REC_EVENT_REMOTE_AUDIO_STATS "remoteAudioStats"
+#define REC_EVENT_RECORDING_STATS "recordingStats"
+#define REC_EVENT_LOCAL_USER_REGISTER "localUserRegistered"
+#define REC_EVENT_USER_INFO_UPDATED "userInfoUpdated"
     public:
             struct NodeEventCallback
             {
@@ -121,6 +130,19 @@ class AgoraSdk : virtual public agora::recording::IRecordingEngineEventHandler {
         virtual void onReceivingStreamStatusChanged(bool receivingAudio, bool receivingVideo);
         virtual void onConnectionLost();
         virtual void onConnectionInterrupted();
+
+        /**
+         * 3.0.0
+         */
+        virtual void onRemoteVideoStreamStateChanged(uid_t uid, linuxsdk::RemoteStreamState state, linuxsdk::RemoteStreamStateChangedReason reason);
+        virtual void onRemoteAudioStreamStateChanged(uid_t, agora::linuxsdk::RemoteStreamState, agora::linuxsdk::RemoteStreamStateChangedReason);
+        virtual void onRejoinChannelSuccess(const char* channelId, uid_t uid);
+        virtual void onConnectionStateChanged(agora::linuxsdk::ConnectionStateType state, agora::linuxsdk::ConnectionChangedReasonType reason);
+        virtual void onRemoteVideoStats(agora::linuxsdk::uid_t uid, const agora::linuxsdk::RemoteVideoStats& stats);
+        virtual void onRemoteAudioStats(agora::linuxsdk::uid_t uid, const agora::linuxsdk::RemoteAudioStats& stats);
+        virtual void onRecordingStats(const agora::linuxsdk::RecordingStats& stats);
+        virtual void onLocalUserRegistered(uid_t uid, const char* userAccount);
+        virtual void onUserInfoUpdated(uid_t uid, const agora::linuxsdk::UserInfo& info);
     protected:
         void onErrorImpl(int error, agora::linuxsdk::STAT_CODE_TYPE stat_code);
         void onWarningImpl(int warn);

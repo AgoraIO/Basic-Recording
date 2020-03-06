@@ -12,7 +12,6 @@
 #include "node_async_queue.h"
 
 #include "base/atomic.h"
-#include "base/log.h" 
 #include "opt_parser.h" 
 namespace agora {
 
@@ -89,6 +88,41 @@ namespace agora {
             NodeEventCallback& cb = *it->second;\
             cb.callback.Get(isolate)->Call(cb.js_this.Get(isolate), 5, argv);\
         }
+
+
+#define NODE_SET_OBJ_PROP_UINT32(obj, name, val) \
+    { \
+        Local<Value> propName = String::NewFromUtf8(isolate, name, NewStringType::kInternalized).ToLocalChecked(); \
+        Local<Value> propVal = napi_create_uint32_(isolate, val); \
+        v8::Maybe<bool> ret = obj->Set(isolate->GetCurrentContext(), propName, propVal); \
+        if(!ret.IsNothing()) { \
+            if(!ret.ToChecked()) { \
+                break; \
+            } \
+        } \
+    }
+#define NODE_SET_OBJ_PROP_UID(obj, name, val) \
+    { \
+        Local<Value> propName = String::NewFromUtf8(isolate, name, NewStringType::kInternalized).ToLocalChecked(); \
+        Local<Value> propVal = NodeUid::getNodeValue(isolate, val); \
+        v8::Maybe<bool> ret = obj->Set(isolate->GetCurrentContext(), propName, propVal); \
+        if(!ret.IsNothing()) { \
+            if(!ret.ToChecked()) { \
+                break; \
+            } \
+        } \
+    }
+#define NODE_SET_OBJ_PROP_STRING(obj, name, val) \
+    { \
+        Local<Value> propName = String::NewFromUtf8(isolate, name, NewStringType::kInternalized).ToLocalChecked(); \
+        Local<Value> propVal = String::NewFromUtf8(isolate, val, NewStringType::kInternalized).ToLocalChecked(); \
+        v8::Maybe<bool> ret = obj->Set(isolate->GetCurrentContext(), propName, propVal); \
+        if(!ret.IsNothing()) { \
+            if(!ret.ToChecked()) { \
+                break; \
+            } \
+        } \
+    }
 
 AgoraSdk::AgoraSdk(): IRecordingEngineEventHandler() {
   m_engine = NULL;
@@ -440,5 +474,128 @@ void AgoraSdk::onConnectionInterrupted() {
     });
 }
 
+void AgoraSdk::onRemoteVideoStreamStateChanged(uid_t uid, linuxsdk::RemoteStreamState state, linuxsdk::RemoteStreamStateChangedReason reason) {
+    agora::recording::node_async_call::async_call([this, uid, state, reason]() {
+        MAKE_JS_CALL_3(REC_EVENT_REMOTE_VIDEO_STREAM_STATE_CHANGED, uid, uid, int32, state, int32, reason);
+    });
 }
 
+void AgoraSdk::onRemoteAudioStreamStateChanged(uid_t uid, agora::linuxsdk::RemoteStreamState state, agora::linuxsdk::RemoteStreamStateChangedReason reason) {
+    agora::recording::node_async_call::async_call([this, uid, state, reason]() {
+        MAKE_JS_CALL_3(REC_EVENT_REMOTE_AUDIO_STREAM_STATE_CHANGED, uid, uid, int32, state, int32, reason);
+    });
+}
+
+void AgoraSdk::onRejoinChannelSuccess(const char* channelId, uid_t uid) {
+    std::string sChannelId(channelId);
+    agora::recording::node_async_call::async_call([this, sChannelId, uid]() {
+        MAKE_JS_CALL_2(REC_EVENT_REJOIN_SUCCESS, string, sChannelId.c_str(), uid, uid);
+    });
+}
+
+void AgoraSdk::onConnectionStateChanged(agora::linuxsdk::ConnectionStateType state, agora::linuxsdk::ConnectionChangedReasonType reason) {
+    agora::recording::node_async_call::async_call([this, state, reason]() {
+        MAKE_JS_CALL_2(REC_EVENT_CONN_STATE_CHANGED, int32, state, int32, reason);
+    });
+}
+void AgoraSdk::onRemoteVideoStats(agora::linuxsdk::uid_t uid, const agora::linuxsdk::RemoteVideoStats& stats) {
+    agora::recording::node_async_call::async_call([this, uid, stats]() {
+        do {
+            Isolate *isolate = Isolate::GetCurrent();
+            HandleScope scope(isolate);
+            Local<Context> context = isolate->GetCurrentContext();
+            Local<Object> obj = Object::New(isolate);
+            
+            NODE_SET_OBJ_PROP_UINT32(obj, "delay", stats.delay);
+            NODE_SET_OBJ_PROP_UINT32(obj, "width", stats.width);
+            NODE_SET_OBJ_PROP_UINT32(obj, "height", stats.height);
+            NODE_SET_OBJ_PROP_UINT32(obj, "receivedBitrate", stats.receivedBitrate);
+            NODE_SET_OBJ_PROP_UINT32(obj, "decoderOutputFrameRate", stats.decoderOutputFrameRate);
+            NODE_SET_OBJ_PROP_UINT32(obj, "rxStreamType", stats.rxStreamType);
+            Local<Value> arg[2] = { napi_create_uid_(isolate, uid), obj };
+            auto it = m_callbacks.find(REC_EVENT_REMOTE_VIDEO_STATS);
+            if (it != m_callbacks.end()) {
+                it->second->callback.Get(isolate)->Call(context, it->second->js_this.Get(isolate), 2, arg); \
+            }
+        } while(false);
+    });
+}
+
+void AgoraSdk::onRemoteAudioStats(agora::linuxsdk::uid_t uid, const agora::linuxsdk::RemoteAudioStats& stats) {
+    agora::recording::node_async_call::async_call([this, uid, stats]() {
+        do {
+            Isolate *isolate = Isolate::GetCurrent();
+            HandleScope scope(isolate);
+            Local<Context> context = isolate->GetCurrentContext();
+            Local<Object> obj = Object::New(isolate);
+            
+            NODE_SET_OBJ_PROP_UINT32(obj, "quality", stats.quality);
+            NODE_SET_OBJ_PROP_UINT32(obj, "networkTransportDelay", stats.networkTransportDelay);
+            NODE_SET_OBJ_PROP_UINT32(obj, "jitterBufferDelay", stats.jitterBufferDelay);
+            NODE_SET_OBJ_PROP_UINT32(obj, "audioLossRate", stats.audioLossRate);
+            Local<Value> arg[2] = { napi_create_uid_(isolate, uid), obj };
+            auto it = m_callbacks.find(REC_EVENT_REMOTE_AUDIO_STATS);
+            if (it != m_callbacks.end()) {
+                it->second->callback.Get(isolate)->Call(context, it->second->js_this.Get(isolate), 2, arg); \
+            }
+        } while(false);
+    });
+}
+
+void AgoraSdk::onRecordingStats(const agora::linuxsdk::RecordingStats& stats) {
+    agora::recording::node_async_call::async_call([this, stats]() {
+        do {
+            Isolate *isolate = Isolate::GetCurrent();
+            HandleScope scope(isolate);
+            Local<Context> context = isolate->GetCurrentContext();
+            Local<Object> obj = Object::New(isolate);
+            
+            NODE_SET_OBJ_PROP_UINT32(obj, "duration", stats.duration);
+            NODE_SET_OBJ_PROP_UINT32(obj, "rxBytes", stats.rxBytes);
+            NODE_SET_OBJ_PROP_UINT32(obj, "rxKBitRate", stats.rxKBitRate);
+            NODE_SET_OBJ_PROP_UINT32(obj, "rxAudioKBitRate", stats.rxAudioKBitRate);
+            NODE_SET_OBJ_PROP_UINT32(obj, "rxVideoKBitRate", stats.rxVideoKBitRate);
+            NODE_SET_OBJ_PROP_UINT32(obj, "lastmileDelay", stats.lastmileDelay);
+            NODE_SET_OBJ_PROP_UINT32(obj, "userCount", stats.userCount);
+            NODE_SET_OBJ_PROP_UINT32(obj, "cpuAppUsage", stats.cpuAppUsage);
+            NODE_SET_OBJ_PROP_UINT32(obj, "cpuTotalUsage", stats.cpuTotalUsage);
+            Local<Value> arg[1] = { obj };
+            auto it = m_callbacks.find(REC_EVENT_RECORDING_STATS);
+            if (it != m_callbacks.end()) {
+                it->second->callback.Get(isolate)->Call(context, it->second->js_this.Get(isolate), 1, arg); \
+            }
+        } while(false);
+    });
+}
+
+void AgoraSdk::onLocalUserRegistered(uid_t uid, const char* userAccount) {
+    std::string sUserAccount(userAccount);
+    agora::recording::node_async_call::async_call([this, uid, sUserAccount]() {
+        MAKE_JS_CALL_2(REC_EVENT_LOCAL_USER_REGISTER, uid, uid, string, sUserAccount.c_str());
+    });
+}
+
+void AgoraSdk::onUserInfoUpdated(uid_t uid, const agora::linuxsdk::UserInfo& info) {
+    agora::recording::node_async_call::async_call([this, uid, info]() {
+        do {
+            Isolate *isolate = Isolate::GetCurrent();
+            HandleScope scope(isolate);
+            Local<Context> context = isolate->GetCurrentContext();
+            Local<Object> obj = Object::New(isolate);
+            
+            NODE_SET_OBJ_PROP_UID(obj, "uid", info.uid);
+            NODE_SET_OBJ_PROP_STRING(obj, "userAccount", info.userAccount);
+
+            Local<Value> arg[2] = {
+                napi_create_uid_(isolate, uid),
+                obj 
+            };
+            auto it = m_callbacks.find(REC_EVENT_USER_INFO_UPDATED);
+            if (it != m_callbacks.end()) {
+                it->second->callback.Get(isolate)->Call(context, it->second->js_this.Get(isolate), 2, arg); \
+            }
+        } while(false);
+    });
+}
+
+}

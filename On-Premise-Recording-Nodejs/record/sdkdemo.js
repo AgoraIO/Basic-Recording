@@ -16,6 +16,9 @@ function startRecording() {
     rec.on("error", function (err, stat) {
         console.log(`err ${err} ${stat}`);
     });
+    rec.on("recordingStats", function(stats) {
+        console.log(`recording stats ${JSON.stringify(stats)}`)
+    })
     rec.on("userleave", function(uid) {
         //rearrange layout when user leaves
         console.log(`userleave ${uid}`);

@@ -52,6 +52,33 @@ class AgoraRecordSdk extends EventEmitter {
         this.onEvent("audiovolumeindication", (speakers, speakerNum) => {
             fire("audiovolumeindication", speakers, speakerNum)
         })
+        this.onEvent("remoteVideoStreamStateChanged", (uid, state, reason) => {
+            fire("remoteVideoStreamStateChanged", uid, state, reason)
+        })
+        this.onEvent("remoteAudioStreamStateChanged", (uid, state, reason) => {
+            fire("remoteAudioStreamStateChanged", uid, state, reason)
+        })
+        this.onEvent("rejoinChannelSuccess", (channel, uid) => {
+            fire("rejoinChannelSuccess", channel, uid)
+        })
+        this.onEvent("connectionStateChanged", (state, reason) => {
+            fire("connectionStateChanged", state, reason)
+        })
+        this.onEvent("remoteVideoStats", (uid, stats) => {
+            fire("remoteVideoStats", uid, stats)
+        })
+        this.onEvent("remoteAudioStats", (uid, stats) => {
+            fire("remoteAudioStats", uid, stats)
+        })
+        this.onEvent("recordingStats", (stats) => {
+            fire("recordingStats", stats)
+        })
+        this.onEvent("localUserRegistered", (uid, account) => {
+            fire("localUserRegistered", uid, account)
+        })
+        this.onEvent("userInfoUpdated", (uid, info) => {
+            fire("userInfoUpdated", uid, info)
+        })
     }
 
     joinChannel(key, name, uid, appid, storeFolder) {

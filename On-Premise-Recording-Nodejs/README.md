@@ -18,7 +18,7 @@ This sample application works as a simple restful server to manage recording in 
 ![Architecture](https://github.com/AgoraIO/Basic-Recording/blob/master/Agora-Restful-Recording-Nodejs/architecture.png)
 
 ## Quick Start
-### Backgound Knowledge
+### Background Knowledge
 This project presumes you have basic ideas of how Agora Recording SDK works, if not please read [here](https://github.com/AgoraIO/Basic-Recording/tree/master/Agora-LinuxServer-Recording) carefully before start.
 
 ### Integrate the Agora Recording SDK

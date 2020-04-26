@@ -96,7 +96,7 @@ Parameters:
 |:----    |:---|:----- |-----   |
 |appid |Y  |string |agora appid   |
 |channel |Y  |string | channel name    |
-|key     |N  |string | key if certificate is enalbed for your appid    |
+|key     |N  |string | key if certificate is enabled for your appid    |
 
 Example:
 ```

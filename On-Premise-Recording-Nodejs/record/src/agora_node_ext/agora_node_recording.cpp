@@ -19,6 +19,7 @@ namespace agora {
         void NodeRecordingSdk::Init(Local<Object> &module)
         {
             Isolate *isolate = module->GetIsolate();
+            Local<Context> context = isolate->GetCurrentContext();
             signal(SIGPIPE, SIG_IGN);
             BEGIN_PROPERTY_DEFINE(NodeRecordingSdk, createInstance, 2) //NodeRecordingSdk count of member var
             PROPERTY_METHOD_DEFINE(joinChannel)
@@ -27,7 +28,7 @@ namespace agora {
             PROPERTY_METHOD_DEFINE(onEvent)
             PROPERTY_METHOD_DEFINE(release)
             EN_PROPERTY_DEFINE()
-            module->Set(String::NewFromUtf8(isolate, "NodeRecordingSdk"), tpl->GetFunction());
+            module->Set(String::NewFromUtf8(isolate, "NodeRecordingSdk"), tpl->GetFunction(context).ToLocalChecked());
         }
 
         //The function is used as class constructor in JS layer

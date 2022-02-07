@@ -57,7 +57,7 @@ napi_status napi_get_value_bool_(const Local<Value> &value, bool &result)
     Local<Context> context = isolate->GetCurrentContext();
     if (!value->IsBoolean())
         return napi_invalid_arg;
-    result = value->BooleanValue(context).ToChecked();
+    result = value->BooleanValue(isolate);
     return napi_ok;
 }
 
@@ -137,7 +137,7 @@ Local<Value> napi_create_bool_(Isolate *isolate, const bool &value)
 
 Local<Value> napi_create_string_(Isolate *isolate, const char *value)
 {
-    return String::NewFromUtf8(isolate, value ? value : "");
+    return String::NewFromUtf8(isolate, value ? value : "").ToLocalChecked();
 }
 
 Local<Value> napi_create_double_(Isolate *isolate, const double &value)

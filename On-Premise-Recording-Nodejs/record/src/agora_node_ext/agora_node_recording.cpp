@@ -28,7 +28,7 @@ namespace agora {
             PROPERTY_METHOD_DEFINE(onEvent)
             PROPERTY_METHOD_DEFINE(release)
             EN_PROPERTY_DEFINE()
-            module->Set(String::NewFromUtf8(isolate, "NodeRecordingSdk"), tpl->GetFunction(context).ToLocalChecked());
+            module->Set(context, String::NewFromUtf8(isolate, "NodeRecordingSdk").ToLocalChecked(), tpl->GetFunction(context).ToLocalChecked());
         }
 
         //The function is used as class constructor in JS layer
@@ -198,7 +198,7 @@ namespace agora {
                 int canvasWidth, canvasHeight;
                 NodeString backgroundColor;
                 Local<Array> regions;
-                Local<Object> layoutData = args[0]->ToObject(args.GetIsolate());
+                Local<Object> layoutData = args[0]->ToObject(args.GetIsolate()->GetCurrentContext()).ToLocalChecked();
                 napi_status status = napi_get_value_int32_object_(args.GetIsolate(), layoutData, "canvasWidth", canvasWidth);
                 CHECK_NAPI_STATUS(status);
 
@@ -216,7 +216,7 @@ namespace agora {
                     int zOrder;
                     double alpha, width, height, x, y;
                     uid_t uid;
-                    Local<Value> regionValue = regions->Get(i);
+                    Local<Value> regionValue = regions->Get(args.GetIsolate()->GetCurrentContext(), i).ToLocalChecked();
                     if(!regionValue->IsObject()) {
                         cout << "invalid region found: " << i << endl;
                         break;

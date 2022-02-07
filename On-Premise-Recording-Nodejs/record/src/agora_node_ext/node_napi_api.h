@@ -112,7 +112,7 @@ private:
  */
 #define BEGIN_PROPERTY_DEFINE(className, constructor, fieldCount) \
     Local<FunctionTemplate> tpl = FunctionTemplate::New(isolate, constructor); \
-    tpl->SetClassName(String::NewFromUtf8(isolate, #className)); \
+    tpl->SetClassName(String::NewFromUtf8(isolate, #className).ToLocalChecked()); \
     tpl->InstanceTemplate()->SetInternalFieldCount(fieldCount);
 
 /**

@@ -423,9 +423,9 @@ void AgoraSdk::onAudioVolumeIndication_node(const agora::linuxsdk::AudioVolumeIn
         Local<v8::Array> arrSpeakers = v8::Array::New(isolate, speakerNumber);
         for(int i = 0; i < speakerNumber; i++) {
             Local<Object> obj = Object::New(isolate);
-            obj->Set(napi_create_string_(isolate, "uid"), napi_create_uid_(isolate, speakers[i].uid));
-            obj->Set(napi_create_string_(isolate, "volume"), napi_create_uint32_(isolate, speakers[i].volume));
-            arrSpeakers->Set(i, obj);
+            obj->Set(context, napi_create_string_(isolate, "uid"), napi_create_uid_(isolate, speakers[i].uid));
+            obj->Set(context, napi_create_string_(isolate, "volume"), napi_create_uint32_(isolate, speakers[i].volume));
+            arrSpeakers->Set(context, i, obj);
         }
 
         Local<Value> argv[2]{ arrSpeakers,

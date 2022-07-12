@@ -68,6 +68,7 @@ function startRecording() {
         //join channel
         const firstFrameStartMixing = false;
         rec.joinChannel(null, "agoratest", 0, "<YOUR APP ID>", storageDir, {
+            localAp: "0.0.0.0",
             firstFrameStartMixing
         });
     })

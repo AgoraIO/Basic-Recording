@@ -89,7 +89,7 @@ namespace agora {
             do{
                 agora::recording::RecordingConfig config;
 
-                NodeString key, name, chan_info, applitDir, appid, cfgPath;
+                NodeString key, name, chan_info, applitDir, appid, cfgPath, localAP;
                 uid_t uid;
                 NodeRecordingSdk *pRecording = NULL;
                 napi_get_native_this(args, pRecording);
@@ -109,10 +109,13 @@ namespace agora {
                 CHECK_NAPI_STATUS(status);
                 status = napi_get_value_nodestring_(args[5], cfgPath);
                 CHECK_NAPI_STATUS(status);
+                status = napi_get_value_nodestring_(args[6], localAP);
+                CHECK_NAPI_STATUS(status);
                 string str_appid = (string)appid;
                 string str_name = (string)name;
                 string str_appliteDir = (string)applitDir;
                 string str_cfgPath = (string)cfgPath;
+                string str_localAP;
                 string str_key;
 
                 if(key == nullptr) {
@@ -120,6 +123,12 @@ namespace agora {
                 } else {
                     str_key = (string)key;
                 }
+
+                if(localAP != nullptr) {
+                    str_localAP = (string)localAP;
+                    config.localAp = const_cast<char*>(str_localAP.c_str());
+                }
+
 
                 config.appliteDir = const_cast<char*>(str_appliteDir.c_str());
                 config.cfgFilePath = const_cast<char*>(str_cfgPath.c_str());
@@ -131,6 +140,7 @@ namespace agora {
                 // config.captureInterval = 1;
                 config.triggerMode = agora::linuxsdk::AUTOMATICALLY_MODE;
                 config.mixResolution = "640,480,15,500";
+
 
                 agora::linuxsdk::VideoMixingLayout layout = pRecording->m_agorasdk->getMixLayout();
                 std::stringstream out;

@@ -81,7 +81,9 @@ class AgoraRecordSdk extends EventEmitter {
         })
     }
 
-    joinChannel(key, name, uid, appid, storeFolder) {
+    joinChannel(key, name, uid, appid, storeFolder, {
+        firstFrameStartMixing
+    } = {}) {
         return new Promise((resolve, reject) => {
             let binPath = path.join(__dirname, "./src/sdk/bin/");
             fs.access(storeFolder, fs.constants.W_OK, (err) => {
@@ -93,7 +95,7 @@ class AgoraRecordSdk extends EventEmitter {
                 };
                 const cfgPath = path.join(storeFolder, '/cfg.json')
                 fs.writeFile(cfgPath, JSON.stringify(json), err => {
-                    this.recording.joinChannel(key || null, name, binPath, appid, uid, cfgPath);
+                    this.recording.joinChannel(key || null, name, binPath, appid, uid, cfgPath, firstFrameStartMixing);
                     this.once("error", err => {
                         reject(err);
                     })

@@ -90,6 +90,7 @@ namespace agora {
                 agora::recording::RecordingConfig config;
 
                 NodeString key, name, chan_info, applitDir, appid, cfgPath;
+                bool firstFrameStartMixing = true;
                 uid_t uid;
                 NodeRecordingSdk *pRecording = NULL;
                 napi_get_native_this(args, pRecording);
@@ -108,6 +109,8 @@ namespace agora {
                 status = NodeUid::getUidFromNodeValue(args[4], uid);
                 CHECK_NAPI_STATUS(status);
                 status = napi_get_value_nodestring_(args[5], cfgPath);
+                CHECK_NAPI_STATUS(status);
+                status = napi_get_value_bool_(args[6], firstFrameStartMixing);
                 CHECK_NAPI_STATUS(status);
                 string str_appid = (string)appid;
                 string str_name = (string)name;
@@ -131,6 +134,7 @@ namespace agora {
                 // config.captureInterval = 1;
                 config.triggerMode = agora::linuxsdk::AUTOMATICALLY_MODE;
                 config.mixResolution = "640,480,15,500";
+                config.firstFrameStartMixing = firstFrameStartMixing;
 
                 agora::linuxsdk::VideoMixingLayout layout = pRecording->m_agorasdk->getMixLayout();
                 std::stringstream out;
